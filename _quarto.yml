@@ -1,0 +1,19 @@
+project:
+  type: website
+  output-dir: website
+  resources: 
+   - "_lectures"
+   - "_homeworks"
+   - "_syllabus"
+
+website:
+  title: "Structural Equation Modeling Fall 2025 (PSQF 6249)"
+
+format:
+  html:
+    theme: cosmo
+    css: styles.css
+    toc: true
+
+editor: visual
+ 

@@ -1,0 +1,44 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Structural Equation Modeling (Fall 2025; University of Iowa: PSQF 6249)",
+    "section": "",
+    "text": "The course objective is for participants to be able to understand and implement contemporary approaches to structural equation modeling including the use and application of measurement models for latent traits (i.e., confirmatory factor models, item response models). In addition to these statistical models, the course will also focus on the statistical concepts behind these models and how they relate to each other with respect to scale construction, evaluation, and the use of variables with measurement error in analyses.\nParticipants should already be comfortable with general linear models (e.g., regression, ANOVA), which can be reviewed using the PSQF 6243 (Intermediate Statistical Methods) materials. Ideally participants should also be familiar with generalized linear models (e.g., logistic regression, count regression), which can be reviewed using the PSQF 6270 (Generalized Linear Models) materials.\nClass time will be devoted primarily to lectures, examples, and spontaneous review, the materials for which will be available for download at the course website. Readings and other resources have been suggested for each topic and may be updated later. Video recordings of each class will be made available on YouTube so that closed captioning will be provided, and supplemental videos for specific topics (e.g., software demos) may be added as well. Auditors and visitors are always welcome to attend class. No required class sessions will be held outside the regular class time given above (i.e., no additional midterm or final exam sessions). However, because the course will have an applied focus requiring the use of statistical software, participants are encouraged to attend group-based office hours (via zoom only), in which multiple participants can receive immediate assistance simultaneously or sequentially."
+  },
+  {
+    "objectID": "index.html#course-objectives",
+    "href": "index.html#course-objectives",
+    "title": "Structural Equation Modeling (Fall 2025; University of Iowa: PSQF 6249)",
+    "section": "",
+    "text": "The course objective is for participants to be able to understand and implement contemporary approaches to structural equation modeling including the use and application of measurement models for latent traits (i.e., confirmatory factor models, item response models). In addition to these statistical models, the course will also focus on the statistical concepts behind these models and how they relate to each other with respect to scale construction, evaluation, and the use of variables with measurement error in analyses.\nParticipants should already be comfortable with general linear models (e.g., regression, ANOVA), which can be reviewed using the PSQF 6243 (Intermediate Statistical Methods) materials. Ideally participants should also be familiar with generalized linear models (e.g., logistic regression, count regression), which can be reviewed using the PSQF 6270 (Generalized Linear Models) materials.\nClass time will be devoted primarily to lectures, examples, and spontaneous review, the materials for which will be available for download at the course website. Readings and other resources have been suggested for each topic and may be updated later. Video recordings of each class will be made available on YouTube so that closed captioning will be provided, and supplemental videos for specific topics (e.g., software demos) may be added as well. Auditors and visitors are always welcome to attend class. No required class sessions will be held outside the regular class time given above (i.e., no additional midterm or final exam sessions). However, because the course will have an applied focus requiring the use of statistical software, participants are encouraged to attend group-based office hours (via zoom only), in which multiple participants can receive immediate assistance simultaneously or sequentially."
+  },
+  {
+    "objectID": "index.html#course-readings",
+    "href": "index.html#course-readings",
+    "title": "Structural Equation Modeling (Fall 2025; University of Iowa: PSQF 6249)",
+    "section": "Course Readings",
+    "text": "Course Readings\nThe course will provide all readings on our course ICON site."
+  },
+  {
+    "objectID": "index.html#course-details",
+    "href": "index.html#course-details",
+    "title": "Structural Equation Modeling (Fall 2025; University of Iowa: PSQF 6249)",
+    "section": "Course Details",
+    "text": "Course Details\n\n\n\nInstructor:\nJonathan Templin\n\n\nemail:\njonathan-templin@uiowa.edu\n\n\nCourse website:\nhttps://jonathantemplin.github.io/MissingDataMethods2025/\n\n\nCourse repo:\nhttps://github.com/jonathantemplin/MissingDataMethods2025\n\n\nCourse YouTube Playlist:\nhttps://www.youtube.com/watch?v=-YUmmA_akLM&list=PLSmMs4UgmSMgYbH3ryj-BTk7F7WWbgWPO\n\n\nOffice:\nS300A Lindquist Center\n\n\nOffice Phone:\n319-335-6429\n\n\nClassroom:\n60 SH\n\n\nCourse Meeting Time:\nW 12:30pm-3:20pm\n\n\nInstructor Office Hours:\nM 1:30pm-3:30pm via Zoom at https://uiowa.zoom.us/my/jonathantemplinuiowa\n\n\nSyllabus:\nhttps://jonathantemplin.github.io/MissingDataMethods2025/s25mdm_syllabus.html"
+  },
+  {
+    "objectID": "index.html#current-assignments",
+    "href": "index.html#current-assignments",
+    "title": "Structural Equation Modeling (Fall 2025; University of Iowa: PSQF 6249)",
+    "section": "Current Assignments",
+    "text": "Current Assignments\n\n\n\nAssignment\nDue Date\n\n\n\n\nNone (Yet)"
+  },
+  {
+    "objectID": "index.html#lecture-and-class-files-and-links",
+    "href": "index.html#lecture-and-class-files-and-links",
+    "title": "Structural Equation Modeling (Fall 2025; University of Iowa: PSQF 6249)",
+    "section": "Lecture and Class Files and Links",
+    "text": "Lecture and Class Files and Links\n\n\n\n\nDate\nTopic\nReadings/Materials\n\n\n27 Aug\nIntroduction to Course/Latent Trait Measurement Models\nRequired: Brown (2015) Chs. 1 and 2\nOptional: John & Benet-Martinez (2014), Preacher & McCollum (2003)\n\n\n\n\n\nSyllabus\nLecture Slides\nLecture Video (available after class)\n\n\n\n3 Sep\nPath Analysis\nRequired: Kaplan (2008) Ch. 2\nOptional: None"
+  }
+]
