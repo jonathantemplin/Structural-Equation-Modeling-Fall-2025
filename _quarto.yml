@@ -1,6 +1,6 @@
 project:
   type: website
-  output-dir: website
+  output-dir: docs
   resources: 
    - "_lectures"
    - "_homeworks"
