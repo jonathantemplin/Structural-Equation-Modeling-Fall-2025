@@ -14,7 +14,7 @@ output: pdf_document
 |-------------------------------------|------------------------------------|
 |Instructor:                          |                     Jonathan Templin|
 |email:                               |           jonathan-templin@uiowa.edu|
-|Course website:                      | TBA  |
+|Course website:                      | [https://jonathantemplin.github.io/Structural-Equation-Modeling-Fall-2025/](https://jonathantemplin.github.io/Structural-Equation-Modeling-Fall-2025/)  |
 |Course repo: | [https://github.com/jonathantemplin/Structural-Equation-Modeling-Fall-2025](https://github.com/jonathantemplin/Structural-Equation-Modeling-Fall-2025) |
 |Course YouTube Playlist: | TBA |
 |Office:                              |               S300A Lindquist Center|
