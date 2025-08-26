@@ -10,25 +10,37 @@ Participants should already be comfortable with general linear models (e.g., reg
 
 Class time will be devoted primarily to lectures, examples, and spontaneous review, the materials for which will be available for download at the course website. Readings and other resources have been suggested for each topic and may be updated later. Video recordings of each class will be made available on YouTube so that closed captioning will be provided, and supplemental videos for specific topics (e.g., software demos) may be added as well. Auditors and visitors are always welcome to attend class. No required class sessions will be held outside the regular class time given above (i.e., no additional midterm or final exam sessions). However, because the course will have an applied focus requiring the use of statistical software, participants are encouraged to attend group-based office hours (via zoom only), in which multiple participants can receive immediate assistance simultaneously or sequentially.
 
+Note: The materials in this course were created by both myself and [Lesa Hoffman](https://www.lesahoffman.com) through years of collaboration. Materials created by Lesa are used with her permission.
+
 ## Course Readings
 
 The course will provide all readings on our course ICON site.
 
 ## Course Details
 
-|  |  |
-|----|----|
-| Instructor: | Jonathan Templin |
-| email: | [jonathan-templin\@uiowa.edu](mailto:jonathan-templin@uiowa.edu) |
-| Course website: | <https://jonathantemplin.github.io/Structural-Equation-Modeling-Fall-2025/> |
-| Course repo: | <https://github.com/jonathantemplin/Structural-Equation-Modeling-Fall-2025> |
-| Course YouTube Playlist: | Provided after first lecture |
-| Office: | S300A Lindquist Center |
-| Office Phone: | 319-335-6429 |
-| Classroom: | 60 SH |
-| Course Meeting Time: | W 12:30pm-3:20pm |
-| Instructor Office Hours: | M 1:30pm-3:30pm via Zoom at <https://uiowa.zoom.us/my/jonathantemplinuiowa> |
-| Syllabus: | <https://docs.google.com/viewer?url=https://raw.githubusercontent.com/jonathantemplin/Structural-Equation-Modeling-Fall-2025/main/_syllabus/psqf6429f2025_syllabus.pdf> |
++-----------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Instructor:                       | Jonathan Templin                                                                                                                                                        |
++-----------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| email:                            | [jonathan-templin\@uiowa.edu](mailto:jonathan-templin@uiowa.edu)                                                                                                        |
++-----------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Course website:                   | <https://jonathantemplin.github.io/Structural-Equation-Modeling-Fall-2025/>                                                                                             |
++-----------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Course repo:                      | <https://github.com/jonathantemplin/Structural-Equation-Modeling-Fall-2025>                                                                                             |
++-----------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Course YouTube Playlist:          | Provided after first lecture                                                                                                                                            |
++-----------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Office:                           | S300A Lindquist Center                                                                                                                                                  |
++-----------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Office Phone:                     | 319-335-6429                                                                                                                                                            |
++-----------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Classroom:                        | 60 SH                                                                                                                                                                   |
++-----------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Course Meeting Time:              | W 12:30pm-3:20pm                                                                                                                                                        |
++-----------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Instructor Office Hours:          | M 1:30pm-3:30pm via Zoom at <https://uiowa.zoom.us/my/jonathantemplinuiowa>                                                                                             |
++-----------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Syllabus:                         | <https://docs.google.com/viewer?url=https://raw.githubusercontent.com/jonathantemplin/Structural-Equation-Modeling-Fall-2025/main/_syllabus/psqf6429f2025_syllabus.pdf> |
++-----------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 
 ## Current Assignments
 
@@ -53,28 +65,28 @@ th, td {
 </style>
 ```
 
-+--------+--------------------------------------------------------+:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-| # Date | # Topic                                                | # Readings/Materials                                                                                                                                                                                         |
-+--------+--------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-| 27 Aug | Introduction to Course/Latent Trait Measurement Models | **Readings**                                                                                                                                                                                                 |
-|        |                                                        |                                                                                                                                                                                                              |
-|        |                                                        | -   **Required:** Brown (2015) Chs. 1 and 2                                                                                                                                                                  |
-|        |                                                        |                                                                                                                                                                                                              |
-|        |                                                        | -   **Optional:** John & Benet-Martinez (2014), Preacher & McCollum (2003)                                                                                                                                   |
-|        |                                                        |                                                                                                                                                                                                              |
-|        |                                                        | <hr>                                                                                                                                                                                                         |
-|        |                                                        |                                                                                                                                                                                                              |
-|        |                                                        | \                                                                                                                                                                                                            |
-|        |                                                        | **Materials**                                                                                                                                                                                                |
-|        |                                                        |                                                                                                                                                                                                              |
-|        |                                                        | -   [Syllabus](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/jonathantemplin/Structural-Equation-Modeling-Fall-2025/main/_syllabus/psqf6429f2025_syllabus.pdf)                        |
-|        |                                                        | -   [Lecture Slides](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/jonathantemplin/Structural-Equation-Modeling-Fall-2025/main/_lectures/01_Introduction/psqf6249f2025_lecture01.pdf) |
-|        |                                                        | -   [R syntax](https://github.com/jonathantemplin/Structural-Equation-Modeling-Fall-2025/blob/main/_lectures/01_Introduction/psqf6249f2025_lecture01.R)                                                      |
-|        |                                                        | -   Lecture Video (available after class)                                                                                                                                                                    |
-+--------+--------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-| 3 Sep  | Path Analysis                                          | **Readings**                                                                                                                                                                                                 |
-|        |                                                        |                                                                                                                                                                                                              |
-|        |                                                        | -   **Required:** Kaplan (2008) Ch. 2                                                                                                                                                                        |
-|        |                                                        |                                                                                                                                                                                                              |
-|        |                                                        | -   **Optional:** None                                                                                                                                                                                       |
-+--------+--------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
++----------+--------------------------------------------------------+:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| # Date   | # Topic                                                | # Readings/Materials                                                                                                                                                                                         |
++----------+--------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| 27 Aug   | Introduction to Course/Latent Trait Measurement Models | **Readings**                                                                                                                                                                                                 |
+|          |                                                        |                                                                                                                                                                                                              |
+|          |                                                        | -   **Required:** Brown (2015) Chs. 1 and 2                                                                                                                                                                  |
+|          |                                                        |                                                                                                                                                                                                              |
+|          |                                                        | -   **Optional:** John & Benet-Martinez (2014), Preacher & McCollum (2003)                                                                                                                                   |
+|          |                                                        |                                                                                                                                                                                                              |
+|          |                                                        | <hr>                                                                                                                                                                                                         |
+|          |                                                        |                                                                                                                                                                                                              |
+|          |                                                        | \                                                                                                                                                                                                            |
+|          |                                                        | **Materials**                                                                                                                                                                                                |
+|          |                                                        |                                                                                                                                                                                                              |
+|          |                                                        | -   [Syllabus](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/jonathantemplin/Structural-Equation-Modeling-Fall-2025/main/_syllabus/psqf6429f2025_syllabus.pdf)                        |
+|          |                                                        | -   [Lecture Slides](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/jonathantemplin/Structural-Equation-Modeling-Fall-2025/main/_lectures/01_Introduction/psqf6249f2025_lecture01.pdf) |
+|          |                                                        | -   [R syntax](https://github.com/jonathantemplin/Structural-Equation-Modeling-Fall-2025/blob/main/_lectures/01_Introduction/psqf6249f2025_lecture01.R)                                                      |
+|          |                                                        | -   Lecture Video (available after class)                                                                                                                                                                    |
++----------+--------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| 3 Sep    | Path Analysis                                          | **Readings**                                                                                                                                                                                                 |
+|          |                                                        |                                                                                                                                                                                                              |
+|          |                                                        | -   **Required:** Kaplan (2008) Ch. 2                                                                                                                                                                        |
+|          |                                                        |                                                                                                                                                                                                              |
+|          |                                                        | -   **Optional:** None                                                                                                                                                                                       |
++----------+--------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
