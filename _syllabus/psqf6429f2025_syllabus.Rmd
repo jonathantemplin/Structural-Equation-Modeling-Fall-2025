@@ -2,34 +2,30 @@
 title: 'PSQF 6429: Structural Equation Modeling, Fall 2025'
 date: 'Version 1.0: 18 August 2025'
 output: pdf_document
-
 ---
 
-*_Note:_ The online syllabus at the address provided in the table will always have the most current information.*
-
+*Note:* The online syllabus at the address provided in the table will always have the most current information.
 
 ## Course Information
 
-|                                     |                                      |
-|-------------------------------------|------------------------------------|
-|Instructor:                          |                     Jonathan Templin|
-|email:                               |           jonathan-templin@uiowa.edu|
-|Course website:                      | [https://jonathantemplin.github.io/Structural-Equation-Modeling-Fall-2025/](https://jonathantemplin.github.io/Structural-Equation-Modeling-Fall-2025/)  |
-|Course repo: | [https://github.com/jonathantemplin/Structural-Equation-Modeling-Fall-2025](https://github.com/jonathantemplin/Structural-Equation-Modeling-Fall-2025) |
-|Course YouTube Playlist: | TBA |
-|Office:                              |               S300A Lindquist Center|
-|Office Phone: | 319-335-6429 |
-|Classroom:                           |                60 SH |
-|Course Meeting Time:                 |               W 12:30pm-3:20pm|
-|Course Office Hours:                 |   M 1:30pm-3:30pm via Zoom at [https://uiowa.zoom.us/my/jonathantemplinuiowa](https://uiowa.zoom.us/my/jonathantemplinuiowa) |
-|Teaching Assistants:                 | Erica Dorman (erica-dorman@uiowa.edu)  |
-|                                     | Ae Kyong Jung (aekyong-jung@uiowa.edu) |
-| | |
-|TA Office Hours:                     | Erica: T 10a,-11am via Zoom at [https://uiowa.zoom.us/my/ericadorman](https://uiowa.zoom.us/my/ericadorman)|
-| |------------------------------------|
-|                     | Ae Kyong: M 3:30pm-4:30pm via Zoom at [https://uiowa.zoom.us/my/aekyongjung](https://uiowa.zoom.us/my/aekyongjung)|
-
-
+|  |  |
+|----|----|
+| Instructor: | Jonathan Templin |
+| email: | [jonathan-templin\@uiowa.edu](mailto:jonathan-templin@uiowa.edu){.email} |
+| Course website: | <https://jonathantemplin.github.io/Structural-Equation-Modeling-Fall-2025/> |
+| Course repo: | <https://github.com/jonathantemplin/Structural-Equation-Modeling-Fall-2025> |
+| Course YouTube Playlist: | TBA |
+| Office: | S300A Lindquist Center |
+| Office Phone: | 319-335-6429 |
+| Classroom: | 60 SH |
+| Course Meeting Time: | W 12:30pm-3:20pm |
+| Course Office Hours: | M 1:30pm-3:30pm via Zoom at <https://uiowa.zoom.us/my/jonathantemplinuiowa> |
+| Teaching Assistants: | Erica Dorman ([erica-dorman\@uiowa.edu](mailto:erica-dorman@uiowa.edu){.email}) |
+|  | Ae Kyong Jung ([aekyong-jung\@uiowa.edu](mailto:aekyong-jung@uiowa.edu){.email}) |
+|  |  |
+| TA Office Hours: | Erica: T 10a,-11am via Zoom at <https://uiowa.zoom.us/my/ericadorman> |
+|  | ------------------------------------ |
+|  | Ae Kyong: M 3:30pm-4:30pm via Zoom at <https://uiowa.zoom.us/my/aekyongjung> |
 
 ### Course Objectives, Materials, and Prerequesites
 
@@ -39,131 +35,123 @@ Participants should already be comfortable with general linear models (e.g., reg
 
 Class time will be devoted primarily to lectures, examples, and spontaneous review, the materials for which will be available for download at the course website. Readings and other resources have been suggested for each topic and may be updated later. Video recordings of each class will be made available on YouTube so that closed captioning will be provided, and supplemental videos for specific topics (e.g., software demos) may be added as well. Auditors and visitors are always welcome to attend class. No required class sessions will be held outside the regular class time given above (i.e., no additional midterm or final exam sessions). However, because the course will have an applied focus requiring the use of statistical software, participants are encouraged to attend group-based office hours (via zoom only), in which multiple participants can receive immediate assistance simultaneously or sequentially.
 
-
 ## Course Website/Technology
 
-ICON *will* be used for grades, submission of assignments, disseminating course readings, and course communications. 
+ICON *will* be used for grades, submission of assignments, disseminating course readings, and course communications.
 
 ICON *will not* be used for lecture materials. Instead, we will use freely available commercial software for communication and dissemination of course materials. Course lecture slides, lecture examples, video files, assignments, and information are available on the website. Additionally, all course materials will be available using the course Git repository.
 
-All lectures will be archived on YouTube (my YouTube channel is [https://www.youtube.com/channel/UC6WctsOhVfGW1D9NZUH1xFg](https://www.youtube.com/channel/UC6WctsOhVfGW1D9NZUH1xFg)). 
+All lectures will be archived on YouTube (my YouTube channel is <https://www.youtube.com/channel/UC6WctsOhVfGW1D9NZUH1xFg>).
 
 ## Statistical Computing
 
-The course will use the R statistical package with the R Studio development suite along with a set of R packages (primarily `lavaan`). Mplus can be also used for analyses in this class but is not open-source and can be expensive. 
+The course will use the R statistical package with the R Studio development suite along with a set of R packages (primarily `lavaan`). Mplus can be also used for analyses in this class but is not open-source and can be expensive.
 
-R, R Studio, and stan are available for free from the following websites:
-R: [https://www.r-project.org/](https://www.r-project.org/)
-R Studio: [https://www.rstudio.com/](https://mc-stan.org/)
+R, R Studio, and stan are available for free from the following websites: R: <https://www.r-project.org/> R Studio: [https://www.rstudio.com/](https://mc-stan.org/)
 
-The University of Iowa enables access for many of these programs through their research computing resources: 
-R Studio Notebooks: https://notebooks.hpc.uiowa.edu/
-High Performance Computing: https://hpc.uiowa.edu/
+The University of Iowa enables access for many of these programs through their research computing resources: R Studio Notebooks: <https://notebooks.hpc.uiowa.edu/> High Performance Computing: <https://hpc.uiowa.edu/>
 
 Although this software is available at the University of Iowa, I ask that you install all versions on your local computer as campus resources can be difficult to use for many analyses.
-
 
 ## Tentative Course Schedule
 
 Note: For readings, R denotes required readings, O denotes optional readings for more context.
 
-| Date | Topic | Reading | 
-|------|-------|---------|
+| Date | Topic | Reading |
+|----|----|----|
 | 27 Aug | Introduction to Course/Latent Trait Measurement Models | R: Brown (2015) Chs. 1 and 2 |
-|        |                              | O: John & Benet-Martinez (2014), Preacher & McCollum (2003)       |
-|------|-------|---------|
+|  |  | O: John & Benet-Martinez (2014), Preacher & McCollum (2003) |
+| ------ | ------- | --------- |
 | 3 Sep | Path Analysis | R: Kaplan (2008) Ch. 2 |
-|        |                              | O: None       |
-|------|-------|---------|
+|  |  | O: None |
+| ------ | ------- | --------- |
 | 10 Sep | Classical Test Theory / Exploratory Factor Analysis (Videos; No in person lecture) | R: McDonald (1999) Ch. 5 |
-|        |                              | O: McNeish (2018), Clifton (2020)       |
-|------|-------|---------|
+|  |  | O: McNeish (2018), Clifton (2020) |
+| ------ | ------- | --------- |
 | 17 Sep | Confirmatory Factor Analysis Part 1 | R: Brown (2015) Ch. 3 |
-|        |                              | O: Clifton (2020)      |
-|------|-------|---------|
+|  |  | O: Clifton (2020) |
+| ------ | ------- | --------- |
 | 24 Sep | Confirmatory Factor Analysis Part 2 | R: Brown (2015) Ch. 4 |
-|        |                              | O: Ferrando (2009), West et al. (2023) |
-|------|-------|---------|
-| 1 Oct  | Confirmatory Factor Analysis Part 3 | R: Brown (2015) Ch. 5 |
-|        |                              | O: McNeish & Wolf (2020), Bollen & Diamantopoulos (2017), Enders (2010) Chs. 3-5 |
-|------|-------|---------|
-| 8 Oct  | Item Response Theory Part 1 | R: Embretson & Reise (2000) Chs. 2-4 |
-|        |                              | O: Mungas & Reed (2000), Wirth & Edwards (2007)|
-|------|-------|---------|
-| 15 Oct  | Item Response Theory Part 1 | R: Embretson & Reise (2000) Chs. 7-8 |
-|        |                              | O: Maydeu-Olivares (2015), Paek et al. (2018) |
-|------|-------|---------|
+|  |  | O: Ferrando (2009), West et al. (2023) |
+| ------ | ------- | --------- |
+| 1 Oct | Confirmatory Factor Analysis Part 3 | R: Brown (2015) Ch. 5 |
+|  |  | O: McNeish & Wolf (2020), Bollen & Diamantopoulos (2017), Enders (2010) Chs. 3-5 |
+| ------ | ------- | --------- |
+| 8 Oct | Item Response Theory Part 1 | R: Embretson & Reise (2000) Chs. 2-4 |
+|  |  | O: Mungas & Reed (2000), Wirth & Edwards (2007) |
+| ------ | ------- | --------- |
+| 15 Oct | Item Response Theory Part 1 | R: Embretson & Reise (2000) Chs. 7-8 |
+|  |  | O: Maydeu-Olivares (2015), Paek et al. (2018) |
+| ------ | ------- | --------- |
 | 22 Oct | Generalized Measurement Models (Videos only; No in person lecture) | R: Embretson & Reise (2000) Ch. 5 |
-|        |                              | O: Brown (2015) ch. 9, Huggins-Manley et al. (2018), Magnus & Liu (2021), Ostini & Nering (2011), Revuelta et al. (2020) |
-|------|-------|---------|
+|  |  | O: Brown (2015) ch. 9, Huggins-Manley et al. (2018), Magnus & Liu (2021), Ostini & Nering (2011), Revuelta et al. (2020) |
+| ------ | ------- | --------- |
 | 29 Oct | **Midterm Examination (in class)** | R: None |
-|        |                              | O: None       |
-|------|-------|---------|
+|  |  | O: None |
+| ------ | ------- | --------- |
 | 5 Nov | Measurement Invariance | R: Vandenberg & Lance (2000), Brown (2015) ch. 7 |
-|        |                              | O: Asparouhov & Muthén (2014), Gunn et al. (2020) |
-|------|-------|---------|
-| 12 Nov | Higher Order and Method Factor Models  | R: Brown (2015) ch. 6 |
-|        |                              | O: Chen et al. (2006), Henninger & Meiser (2020 both), Reise et al. (2023) |
-|------|-------|---------|
+|  |  | O: Asparouhov & Muthén (2014), Gunn et al. (2020) |
+| ------ | ------- | --------- |
+| 12 Nov | Higher Order and Method Factor Models | R: Brown (2015) ch. 6 |
+|  |  | O: Chen et al. (2006), Henninger & Meiser (2020 both), Reise et al. (2023) |
+| ------ | ------- | --------- |
 | 19 Nov | Structural Equation Modeling | R: Kaplan (2008) Chs. 3-4 |
-|        |                              | O: Cole & Preacher (2014), Gonzalez et al. (2023) |
-|------|-------|---------|
+|  |  | O: Cole & Preacher (2014), Gonzalez et al. (2023) |
+| ------ | ------- | --------- |
 | 26 Nov | **No Class: Fall Break** | R: None |
-|        |                              | O: None       |
-|------|-------|---------|
-| 3 Dec  | Structural Equation Modeling and Alternatives | R: Sterba & Rights (2023) |
-|        |                              | O: None       |
-|------|-------|---------|
+|  |  | O: None |
+| ------ | ------- | --------- |
+| 3 Dec | Structural Equation Modeling and Alternatives | R: Sterba & Rights (2023) |
+|  |  | O: None |
+| ------ | ------- | --------- |
 | 10 Dec | Final Presentations | R: None |
-|        |                              | O: None       |
-
+|  |  | O: None |
 
 ## Course Readings
 
-* Asparouhov, T. & Muthén, B. (2014) Multiple-group factor analysis alignment. Structural Equation Modeling, 21(4), 495–508. [https://doi.org/10.1080/10705511.2014.919210](https://doi.org/10.1080/10705511.2014.919210)
-* Bollen, K. A., & Diamantopoulos, A. (2017). In defense of causal-formative indicators: A minority report. Psychological Methods, 22(3), 581–596. [https://psycnet.apa.org/doi/10.1037/met0000056](https://psycnet.apa.org/doi/10.1037/met0000056)
-* Chen, F., F., West, S. G., & Sousa, K. H. (2006). A comparison of bifactor and second-order models of quality of life. Multivariate Behavioral Research, 41(2), 189–225. 
-* Clifton, J. D. W. (2020). Managing validity versus reliability trade-offs in scale-building decisions. Psychological Methods, 25(3), 259–270. [https://doi.org/10.1037/met0000236](https://doi.org/10.1037/met0000236)
-* Cole, D. A., & Preacher, K. J. (2014). Manifest variable path analysis: potentially serious and misleading consequences due to uncorrected measurement error. Psychological Methods, 19(2), 300–315. [https://psycnet.apa.org/doi/10.1037/a0033805](https://psycnet.apa.org/doi/10.1037/a0033805)
-* Embretson, S. E., & Reise, S. T. (2000). Item response theory for psychologists. Erlbaum.
-* Enders, C. K. (2010). Applied missing data analysis. Guilford.
-* Ferrando, P. J. (2009). Difficulty, discrimination, and information indices in the linear factor analysis model for continuous item responses. Applied Psychological Measurement, 33(1), 9–24. [https://doi.org/10.1177%2F0146621608314608](https://doi.org/10.1177%2F0146621608314608)
-* Gunn, H. J., Grimm, K. J., & Edwards, M.C. (2020). Evaluation of six effect size measures of measurement non-invariance for continuous outcomes. Structural Equation Modeling, 27(4), 503–514. [https://doi.org/10.1080/10705511.2019.1689507](https://doi.org/10.1080/10705511.2019.1689507)
-* Henninger, M., & Meiser, T. (2020). Different approaches to modeling response styles in divide-by-total item response theory models (part 1): A model integration. Psychological Methods, 25(5), 560–576. [https://doi.org/10.1037/met0000249] (https://doi.org/10.1037/met0000249)
-* Henninger, M., & Meiser, T. (2020). Different approaches to modeling response styles in divide-by-total item response theory models (part 2): Applications and novel extensions. Psychological Methods, 25(5), 577–595. [https://doi.org/10.1037/met0000268](https://doi.org/10.1037/met0000268)
-* Huggins-Manley, A. C., Algina, J. & Zhou, S. (2018). Models for semiordered data to address not applicable responses in scale measurement. Structural Equation Modeling, 25(2), 230–243. [https://doi.org/10.1080/10705511.2017.1376586](https://doi.org/10.1080/10705511.2017.1376586)
-* John, O. P., & Benet-Martinez, V. (2014). Measurement: Reliability, construct validation, and scale construction. In H. T. Reis & C. M. Judd (Eds.), Handbook of research methods in social and personality psychology (pp. 473-503, 2nd ed.). Cambridge University Press.
-* Kaplan, D. (2009) Structural equation modeling: Foundations and extensions (2nd ed.). Sage.
-* Magnus, B. E., & Liu, Y. (2022). Symptom presence and symptom severity as unique indicators of psychopathology: An application of multidimensional zero-inflated and hurdle graded response models. Educational and Psychological Measurement, 82(5), 938–966. [https://doi.org/10.1177/00131644211061820](https://doi.org/10.1177/00131644211061820) 
-* Maydeu-Olivares, A. (2015). Evaluating the fit of IRT models. In S. P. Reise & D. A. Revicki (Eds.), Handbook of item response theory modeling (pp. 111–127). Taylor & Francis.
-* McDonald, R. P. (1999). Test theory: A unified treatment. Erlbaum.
-* McNeish, D. (2018). Thanks coefficient alpha, we’ll take it from here. Psychological Methods, 23(3), 412–433. [https://doi.org/10.1037/met0000144](https://doi.org/10.1037/met0000144)
-* McNeish, D. & Wolf, M G. (2020). Thinking twice about sum scores. Behavior Research Methods, 52(6), 2287–2305. [https://doi.org/10.3758/s13428-020-01398-0](https://doi.org/10.3758/s13428-020-01398-0)
-* Mungas, D., & Reed, B. R. (2000). Application of item response theory for development of a global functioning measure of dementia with linear measurement properties. Statistics in Medicine, 19(11–12), 1631–1644. [https://doi.org/10.1002/(sici)1097-0258(20000615/30)19:11/12%3C1631::aid-sim451%3E3.0.co;2-p](https://doi.org/10.1002/(sici)1097-0258(20000615/30)19:11/12%3C1631::aid-sim451%3E3.0.co;2-p)
-* Ostini, R., & Nering, M. (2006). Polytomous item response theory models. Sage. Available at the University of Iowa library in electronic form.
-* Paek, I., Cui, M., Gübes, N. O., & Yang, Y. (2018). Estimation of an IRT model by Mplus for dichotomously scored responses under different estimation methods. Educational and Psychological Measurement, 78(4), 569–588. [https://doi.org/10.1177%2F0013164417715738](https://doi.org/10.1177%2F0013164417715738)
-* Preacher, K. J., & MacCallum, R. C. (2003). Repairing Tom Swift's electric factor analysis machine. Understanding Statistics, 2(1), 13–43. [https://doi.org/10.1207/S15328031US0201_02](https://doi.org/10.1207/S15328031US0201_02)
-* Reise, S. P., Mansolf, M. & Haviland, M. G. (2023). Bifactor measurement models. In R. H. Hoyle (Ed.) Handbook of structural equation modeling (2nd ed.), pp. 329–348. Guildford Press.
-* Revuelta, J., Maydeu-Olivares, A., & Ximénez, C. (2020). Factor analysis for nominal (first choice) data. Structural Equation Modeling, 27(5), 781–797. [https://psycnet.apa.org/doi/10.1080/10705511.2019.1668276](https://psycnet.apa.org/doi/10.1080/10705511.2019.1668276)
-* Sterba, S. K., & Rights, J. D. (2023). Item parceling in SEM: A researcher degree-of-freedom ripe for opportunistic use. In R. H. Hoyle (Ed.) Handbook of structural equation modeling (2nd ed.), pp. 296–315. Guildford.
-* Vandenberg, R. J., & Lance, C. E. (2000). A review and synthesis of the measurement invariance literature: Suggestions, practices, and recommendations for organizational research. Organizational Research Methods, 3(1), 4–69. [https://doi.org/10.1177%2F109442810031002](https://doi.org/10.1177%2F109442810031002)
-* West, S. G., Wu, W., McNeish, D., & Savord, A. (2023). Model fit in structural equation modeling. In R. H. Hoyle (Ed.) Handbook of structural equation modeling (2nd ed.), pp. 184–285. Guildford.
-* Wirth, R. J., & Edwards, M. C. (2007). Item factor analysis: Current approaches and future directions. Psychological Methods, 12(1), 58–79. [https://doi.org/10.1037/1082-989x.12.1.58](https://doi.org/10.1037/1082-989x.12.1.58)
-
+-   Asparouhov, T. & Muthén, B. (2014) Multiple-group factor analysis alignment. Structural Equation Modeling, 21(4), 495–508. <https://doi.org/10.1080/10705511.2014.919210>
+-   Bollen, K. A., & Diamantopoulos, A. (2017). In defense of causal-formative indicators: A minority report. Psychological Methods, 22(3), 581–596. <https://psycnet.apa.org/doi/10.1037/met0000056>
+-   Chen, F., F., West, S. G., & Sousa, K. H. (2006). A comparison of bifactor and second-order models of quality of life. Multivariate Behavioral Research, 41(2), 189–225.
+-   Clifton, J. D. W. (2020). Managing validity versus reliability trade-offs in scale-building decisions. Psychological Methods, 25(3), 259–270. <https://doi.org/10.1037/met0000236>
+-   Cole, D. A., & Preacher, K. J. (2014). Manifest variable path analysis: potentially serious and misleading consequences due to uncorrected measurement error. Psychological Methods, 19(2), 300–315. <https://psycnet.apa.org/doi/10.1037/a0033805>
+-   Embretson, S. E., & Reise, S. T. (2000). Item response theory for psychologists. Erlbaum.
+-   Enders, C. K. (2010). Applied missing data analysis. Guilford.
+-   Ferrando, P. J. (2009). Difficulty, discrimination, and information indices in the linear factor analysis model for continuous item responses. Applied Psychological Measurement, 33(1), 9–24. <https://doi.org/10.1177%2F0146621608314608>
+-   Gunn, H. J., Grimm, K. J., & Edwards, M.C. (2020). Evaluation of six effect size measures of measurement non-invariance for continuous outcomes. Structural Equation Modeling, 27(4), 503–514. <https://doi.org/10.1080/10705511.2019.1689507>
+-   Henninger, M., & Meiser, T. (2020). Different approaches to modeling response styles in divide-by-total item response theory models (part 1): A model integration. Psychological Methods, 25(5), 560–576. [<https://doi.org/10.1037/met0000249>] (<https://doi.org/10.1037/met0000249>)
+-   Henninger, M., & Meiser, T. (2020). Different approaches to modeling response styles in divide-by-total item response theory models (part 2): Applications and novel extensions. Psychological Methods, 25(5), 577–595. <https://doi.org/10.1037/met0000268>
+-   Huggins-Manley, A. C., Algina, J. & Zhou, S. (2018). Models for semiordered data to address not applicable responses in scale measurement. Structural Equation Modeling, 25(2), 230–243. <https://doi.org/10.1080/10705511.2017.1376586>
+-   John, O. P., & Benet-Martinez, V. (2014). Measurement: Reliability, construct validation, and scale construction. In H. T. Reis & C. M. Judd (Eds.), Handbook of research methods in social and personality psychology (pp. 473-503, 2nd ed.). Cambridge University Press.
+-   Kaplan, D. (2009) Structural equation modeling: Foundations and extensions (2nd ed.). Sage.
+-   Magnus, B. E., & Liu, Y. (2022). Symptom presence and symptom severity as unique indicators of psychopathology: An application of multidimensional zero-inflated and hurdle graded response models. Educational and Psychological Measurement, 82(5), 938–966. <https://doi.org/10.1177/00131644211061820>
+-   Maydeu-Olivares, A. (2015). Evaluating the fit of IRT models. In S. P. Reise & D. A. Revicki (Eds.), Handbook of item response theory modeling (pp. 111–127). Taylor & Francis.
+-   McDonald, R. P. (1999). Test theory: A unified treatment. Erlbaum.
+-   McNeish, D. (2018). Thanks coefficient alpha, we’ll take it from here. Psychological Methods, 23(3), 412–433. <https://doi.org/10.1037/met0000144>
+-   McNeish, D. & Wolf, M G. (2020). Thinking twice about sum scores. Behavior Research Methods, 52(6), 2287–2305. <https://doi.org/10.3758/s13428-020-01398-0>
+-   Mungas, D., & Reed, B. R. (2000). Application of item response theory for development of a global functioning measure of dementia with linear measurement properties. Statistics in Medicine, 19(11–12), 1631–1644. [https://doi.org/10.1002/(sici)1097-0258(20000615/30)19:11/12%3C1631::aid-sim451%3E3.0.co;2-p](https://doi.org/10.1002/(sici)1097-0258(20000615/30)19:11/12%3C1631::aid-sim451%3E3.0.co;2-p)
+-   Ostini, R., & Nering, M. (2006). Polytomous item response theory models. Sage. Available at the University of Iowa library in electronic form.
+-   Paek, I., Cui, M., Gübes, N. O., & Yang, Y. (2018). Estimation of an IRT model by Mplus for dichotomously scored responses under different estimation methods. Educational and Psychological Measurement, 78(4), 569–588. <https://doi.org/10.1177%2F0013164417715738>
+-   Preacher, K. J., & MacCallum, R. C. (2003). Repairing Tom Swift's electric factor analysis machine. Understanding Statistics, 2(1), 13–43. <https://doi.org/10.1207/S15328031US0201_02>
+-   Reise, S. P., Mansolf, M. & Haviland, M. G. (2023). Bifactor measurement models. In R. H. Hoyle (Ed.) Handbook of structural equation modeling (2nd ed.), pp. 329–348. Guildford Press.
+-   Revuelta, J., Maydeu-Olivares, A., & Ximénez, C. (2020). Factor analysis for nominal (first choice) data. Structural Equation Modeling, 27(5), 781–797. <https://psycnet.apa.org/doi/10.1080/10705511.2019.1668276>
+-   Sterba, S. K., & Rights, J. D. (2023). Item parceling in SEM: A researcher degree-of-freedom ripe for opportunistic use. In R. H. Hoyle (Ed.) Handbook of structural equation modeling (2nd ed.), pp. 296–315. Guildford.
+-   Vandenberg, R. J., & Lance, C. E. (2000). A review and synthesis of the measurement invariance literature: Suggestions, practices, and recommendations for organizational research. Organizational Research Methods, 3(1), 4–69. <https://doi.org/10.1177%2F109442810031002>
+-   West, S. G., Wu, W., McNeish, D., & Savord, A. (2023). Model fit in structural equation modeling. In R. H. Hoyle (Ed.) Handbook of structural equation modeling (2nd ed.), pp. 184–285. Guildford.
+-   Wirth, R. J., & Edwards, M. C. (2007). Item factor analysis: Current approaches and future directions. Psychological Methods, 12(1), 58–79. <https://doi.org/10.1037/1082-989x.12.1.58>
 
 ## Homework, Formative Assessments, and Final Examination
+
 Student evaluation will be made based four components: (1) homework assignments (20% of course grade), (2) assigned reading assessments (10% of course grade), (3) an in-class midterm examination (35% of course grade), and (4) a final presentation (35% of course grade).
 
 Mathematically, the grade percentage can be expressed as:
 
-$$GP = .2\times HP + .1 \times ARAP + .35 \times MP + .35 \times FP, $$
-Where:
+$$GP = .2\times HP + .1 \times ARAP + .35 \times MP + .35 \times FP, $$ Where:
 
-* GP is the Grade Percentage
-* HP is the Homework Percentage (a weighted average)
-* ARAP is the Assigned Reading Assessment Percentage (a weighted average)
-* MP is the Midterm Examination Percentage
-* FP is the Final Presentation Percentage
+-   GP is the Grade Percentage
+-   HP is the Homework Percentage (a weighted average)
+-   ARAP is the Assigned Reading Assessment Percentage (a weighted average)
+-   MP is the Midterm Examination Percentage
+-   FP is the Final Presentation Percentage
 
 ### Homework Assignments
 
@@ -171,8 +159,7 @@ There will be a set of homework assignments, the exact number to be determined (
 
 Mathematically, the homework percentage can be expressed as:
 
-$$HP = \left[\frac{\left( \sum_{h=1}^H P_h \right)-\min_h P_h} {H-1}\right],$$
-where $P_h$ is the percent correct on homework $h$, with $H$ total number of homeworks.
+$$HP = \left[\frac{\left( \sum_{h=1}^H P_h \right)-\min_h P_h} {H-1}\right],$$ where $P_h$ is the percent correct on homework $h$, with $H$ total number of homeworks.
 
 In order to be able to provide the entire class with prompt feedback, late homework assignments will not be accepted. However, extensions may be granted as needed for extenuating circumstances (e.g., conferences, family obligations) if requested at least three weeks in advance of the due date. Additionally, late homework due to emergencies will be accepted with documentation of the circumstances of the emergency.
 
@@ -180,7 +167,7 @@ Although students are encouraged to work together on the concepts underlying hom
 
 ### Assigned Reading Assessments
 
-Each week, students will take a short assessment in ICON with questions pertaining to the reading assigned that week. The purpose of the assigned reading assessment is to ensure reading materials are read prior to class being held. Questions will be graded correct/incorrect. 
+Each week, students will take a short assessment in ICON with questions pertaining to the reading assigned that week. The purpose of the assigned reading assessment is to ensure reading materials are read prior to class being held. Questions will be graded correct/incorrect.
 
 Mathematically, the Assigned Reading Assessment Percentage (ARAP) percentage can be expressed as:
 
@@ -192,34 +179,33 @@ To ensure students are working to learn the course materials without relying sol
 
 ### Final Presentation
 
-Each student will provide a final presentation during class time on Wednesday, December 10th. The presentation will provide the results of the analyses conducted in homework on the students' data (with the student making corrections to any issues that may have come up with the homework). Details about the presentation structure and a grading rubrice will be provided prior to the final.  The final presentation will account for 35% of the course grade.
+Each student will provide a final presentation during class time on Wednesday, December 10th. The presentation will provide the results of the analyses conducted in homework on the students' data (with the student making corrections to any issues that may have come up with the homework). Details about the presentation structure and a grading rubrice will be provided prior to the final. The final presentation will account for 35% of the course grade.
 
 ### Course Grading System
 
-| Point Total                                    | Letter Grade                                     |
-|-------------------------------------|:------------------------------------|
-|100 and Above | A+ |
-|99-93 | A |
-|92-90 | A- |
-|89-87 | B+ |
-|86-83 | B |
-|82-80 | B- |
-|79-77 | C+ |
-|76-73 | C |
-|72-70 | C- |
-|69-60 | D |
-|Below 60 | F |
-|                                     |                                     |
+| Point Total   | Letter Grade |
+|---------------|:-------------|
+| 100 and Above | A+           |
+| 99-93         | A            |
+| 92-90         | A-           |
+| 89-87         | B+           |
+| 86-83         | B            |
+| 82-80         | B-           |
+| 79-77         | C+           |
+| 76-73         | C            |
+| 72-70         | C-           |
+| 69-60         | D            |
+| Below 60      | F            |
+|               |              |
 
 ## Use of Artificial Intelligence or Other Technology
 
-This course assumes that work submitted by students—all process work, drafts, low-stakes writing, final versions, and all other submissions—will be generated by the students themselves, working individually. This means that the following would be considered violations of academic integrity: a student has another person/entity do the writing of any substantive portion of an assignment for them, which includes hiring a person or a company to write essays and drafts and/or other assignments, research-based or otherwise, and using artificial intelligence models like ChatGPT. 
+This course assumes that work submitted by students—all process work, drafts, low-stakes writing, final versions, and all other submissions—will be generated by the students themselves, working individually. This means that the following would be considered violations of academic integrity: a student has another person/entity do the writing of any substantive portion of an assignment for them, which includes hiring a person or a company to write essays and drafts and/or other assignments, research-based or otherwise, and using artificial intelligence models like ChatGPT.
 
 ## University of Iowa Course Policies and Resources for Students
 
-* Student Complaint Procedure: [https://education.uiowa.edu/faculty-and-staff-resources/student-complaint-procedure](https://education.uiowa.edu/faculty-and-staff-resources/student-complaint-procedure)
+-   Student Complaint Procedure: <https://education.uiowa.edu/faculty-and-staff-resources/student-complaint-procedure>
 
-* College policy on student academic misconduct: [https://education.uiowa.edu/faculty-and-staff-resources/student-academic-misconduct](https://education.uiowa.edu/faculty-and-staff-resources/student-academic-misconduct)
+-   College policy on student academic misconduct: <https://education.uiowa.edu/faculty-and-staff-resources/student-academic-misconduct>
 
-* University policies [https://provost.uiowa.edu/student-course-policies](https://provost.uiowa.edu/student-course-policies)
-
+-   University policies <https://provost.uiowa.edu/student-course-policies>
