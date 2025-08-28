@@ -25,7 +25,7 @@
     "href": "index.html#course-details",
     "title": "Structural Equation Modeling (Fall 2025; University of Iowa: PSQF 6249)",
     "section": "Course Details",
-    "text": "Course Details\n\n\n\nInstructor:\nJonathan Templin\n\n\nemail:\njonathan-templin@uiowa.edu\n\n\nCourse website:\nhttps://jonathantemplin.github.io/Structural-Equation-Modeling-Fall-2025/\n\n\nCourse repo:\nhttps://github.com/jonathantemplin/Structural-Equation-Modeling-Fall-2025\n\n\nCourse YouTube Playlist:\nhttps://www.youtube.com/playlist?list=PLSmMs4UgmSMhOnAG5GAPutNmlpcIhEmmZ\n\n\nOffice:\nS300A Lindquist Center\n\n\nOffice Phone:\n319-335-6429\n\n\nClassroom:\n60 SH\n\n\nCourse Meeting Time:\nW 12:30pm-3:20pm\n\n\nInstructor Office Hours:\nM 1:30pm-3:30pm via Zoom at https://uiowa.zoom.us/my/jonathantemplinuiowa\n\n\nSyllabus:\nhttps://docs.google.com/viewer?url=https://raw.githubusercontent.com/jonathantemplin/Structural-Equation-Modeling-Fall-2025/main/_syllabus/psqf6429f2025_syllabus.pdf"
+    "text": "Course Details\n\n\n\nInstructor:\nJonathan Templin\n\n\nemail:\njonathan-templin@uiowa.edu\n\n\nCourse website:\nhttps://jonathantemplin.github.io/Structural-Equation-Modeling-Fall-2025/\n\n\nCourse repo:\nhttps://github.com/jonathantemplin/Structural-Equation-Modeling-Fall-2025\n\n\nCourse YouTube Playlist:\nhttps://www.youtube.com/playlist?list=PLSmMs4UgmSMhOnAG5GAPutNmlpcIhEmmZ\n\n\nCourse IDAS Site:\nhttps://notebooks.hpc.uiowa.edu/fall2025-psqf-6249-0001/hub/home\n\n\nOffice:\nS300A Lindquist Center\n\n\nOffice Phone:\n319-335-6429\n\n\nClassroom:\n60 SH\n\n\nCourse Meeting Time:\nW 12:30pm-3:20pm\n\n\nInstructor Office Hours:\nM 1:30pm-3:30pm via Zoom at https://uiowa.zoom.us/my/jonathantemplinuiowa\n\n\nSyllabus:\nhttps://docs.google.com/viewer?url=https://raw.githubusercontent.com/jonathantemplin/Structural-Equation-Modeling-Fall-2025/main/_syllabus/psqf6429f2025_syllabus.pdf"
   },
   {
     "objectID": "index.html#current-assignments",
@@ -39,6 +39,6 @@
     "href": "index.html#lecture-and-class-files-and-links",
     "title": "Structural Equation Modeling (Fall 2025; University of Iowa: PSQF 6249)",
     "section": "Lecture and Class Files and Links",
-    "text": "Lecture and Class Files and Links\n\n\n\n\nDate\nTopic\nReadings/Materials\n\n\n27 Aug\nIntroduction to Course/Latent Trait Measurement Models\nReadings\n\nRequired: Brown (2015) Chs. 1 and 2\nOptional: John & Benet-Martinez (2014), Preacher & McCollum (2003)\n\n\n\nMaterials\n\nSyllabus\nLecture Slides\nR syntax\nLecture Video (available after class)\n\n\n\n3 Sep\nPath Analysis\nReadings\n\nRequired: Kaplan (2008) Ch. 2\nOptional: None"
+    "text": "Lecture and Class Files and Links\n\n\n\n\nDate\nTopic\nReadings/Materials\n\n\n27 Aug\nIntroduction to Course/Latent Trait Measurement Models\nReadings\n\nRequired: Brown (2015) Chs. 1 and 2\nOptional: John & Benet-Martinez (2014), Preacher & McCollum (2003)\n\n\n\nMaterials\n\nSyllabus\nLecture Slides\nR syntax\nLecture Video (available after class)\n\n\n\n3 Sep\nPath Analysis\nReadings\n\nRequired: Kaplan (2008) Ch. 2\nOptional: None\n\n\nMaterials\n\nLecture Slides\nR syntax\nExample Data\nLecture Video (available after class)"
   }
 ]
