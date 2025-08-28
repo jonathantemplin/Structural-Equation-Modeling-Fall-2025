@@ -9,12 +9,12 @@ output: pdf_document
 ## Course Information
 
 |  |  |
-|----|----|
+|------------------------------------|------------------------------------|
 | Instructor: | Jonathan Templin |
 | email: | [jonathan-templin\@uiowa.edu](mailto:jonathan-templin@uiowa.edu){.email} |
 | Course website: | <https://jonathantemplin.github.io/Structural-Equation-Modeling-Fall-2025/> |
 | Course repo: | <https://github.com/jonathantemplin/Structural-Equation-Modeling-Fall-2025> |
-| Course YouTube Playlist: | TBA |
+| Course YouTube Playlist: | <https://www.youtube.com/playlist?list=PLSmMs4UgmSMhOnAG5GAPutNmlpcIhEmmZ> |
 | Office: | S300A Lindquist Center |
 | Office Phone: | 319-335-6429 |
 | Classroom: | 60 SH |
@@ -58,7 +58,7 @@ Although this software is available at the University of Iowa, I ask that you in
 Note: For readings, R denotes required readings, O denotes optional readings for more context.
 
 | Date | Topic | Reading |
-|----|----|----|
+|------------------------|------------------------|------------------------|
 | 27 Aug | Introduction to Course/Latent Trait Measurement Models | R: Brown (2015) Chs. 1 and 2 |
 |  |  | O: John & Benet-Martinez (2014), Preacher & McCollum (2003) |
 | ------ | ------- | --------- |
@@ -139,7 +139,7 @@ Note: For readings, R denotes required readings, O denotes optional readings for
 -   West, S. G., Wu, W., McNeish, D., & Savord, A. (2023). Model fit in structural equation modeling. In R. H. Hoyle (Ed.) Handbook of structural equation modeling (2nd ed.), pp. 184–285. Guildford.
 -   Wirth, R. J., & Edwards, M. C. (2007). Item factor analysis: Current approaches and future directions. Psychological Methods, 12(1), 58–79. <https://doi.org/10.1037/1082-989x.12.1.58>
 
-## Homework, Formative Assessments, and Final Examination
+## Homework, Assigned Reading Assessments, Midterm Examination, and Final Examination
 
 Student evaluation will be made based four components: (1) homework assignments (20% of course grade), (2) assigned reading assessments (10% of course grade), (3) an in-class midterm examination (35% of course grade), and (4) a final presentation (35% of course grade).
 
