@@ -13,6 +13,17 @@ rm(list = ls())
 # setwd(myDataLocation)
 
 #AUTOMATING PACKAGES NEEDED FOR ANALYSES--------------------------------------------------------------------------------
+# for IDAS as it is not R verison 4.5
+if (!require("OpenMx")){
+  install.packages("RcppParallel")
+  install.packages("StanHeaders")
+  install.packages("BH")
+  install.packages("rpf")
+  oldURL = "https://cran.r-project.org/src/contrib/Archive/OpenMx/OpenMx_2.22.6.tar.gz"
+  install.packages(oldURL, repos=NULL, type="source")
+  library(semPlot)
+}
+
 needed_packages = c("lavaan","semPlot")
 
 for (i in 1:length(needed_packages)){
