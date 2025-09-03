@@ -23,6 +23,11 @@ for (i in 1:length(needed_packages)){
   }
 }
 
+if (!require("semPlot")){
+  oldURL = "https://cran.r-project.org/src/contrib/Archive/semPlot/semPlot_1.1.4.tar.gz"
+  install.packages(oldURL, repos=NULL, type="source")
+  library(semPlot)
+}
 
 #FUNCTIONS USED WITHIN ANALYSIS:--------------------------------------------------------------------------------------
 plot_bvn_surface = function(meanvec, covmat, type, xlab, ylab, zlab, main){
