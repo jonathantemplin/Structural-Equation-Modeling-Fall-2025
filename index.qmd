@@ -46,9 +46,9 @@ The course will provide all readings on our course ICON site.
 
 ## Current Assignments
 
-| Assignment | Due Date |
-|------------|----------|
-| None (Yet) |          |
+| Assignment                    | Due Date           |
+|-------------------------------|--------------------|
+| Homework #1: Data Description | September 16, 2025 |
 
 ## Lecture and Class Files and Links
 
@@ -133,4 +133,19 @@ th, td {
 |          |                                                        |     -   Videos:                                                                                                                                                                                               |
 |          |                                                        |         -   [Part 1](https://youtu.be/vFktlubZ9i8)                                                                                                                                                            |
 |          |                                                        |         -   [Part 2](https://youtu.be/SW-UzbOdfks)                                                                                                                                                            |
++----------+--------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| 17 Sep   | Path Analysis, Part 2                                  | **Readings**                                                                                                                                                                                                  |
+|          |                                                        |                                                                                                                                                                                                               |
+|          |                                                        | -   **Required:** Kaplan (2008) Ch. 2 (no new reading assessment)                                                                                                                                             |
+|          |                                                        |                                                                                                                                                                                                               |
+|          |                                                        | -   **Optional:** None                                                                                                                                                                                        |
+|          |                                                        |                                                                                                                                                                                                               |
+|          |                                                        | <hr>                                                                                                                                                                                                          |
+|          |                                                        |                                                                                                                                                                                                               |
+|          |                                                        | **Materials**                                                                                                                                                                                                 |
+|          |                                                        |                                                                                                                                                                                                               |
+|          |                                                        | -   [Lecture Slides](https://docs.google.com/viewer?url=https://raw.githubusercontent.com/jonathantemplin/Structural-Equation-Modeling-Fall-2025/main/_lectures/02_Path_Analysis/psqf6249f2025_lecture02.pdf) |
+|          |                                                        | -   [R syntax](https://github.com/jonathantemplin/Structural-Equation-Modeling-Fall-2025/blob/main/_lectures/02_Path_Analysis/psqf6249f2025_lecture02.R)                                                      |
+|          |                                                        | -   [Example Data](https://github.com/jonathantemplin/Structural-Equation-Modeling-Fall-2025/blob/main/_lectures/02_Path_Analysis/mathdata.csv)                                                               |
+|          |                                                        | -   Lecture Video (available after class)                                                                                                                                                                     |
 +----------+--------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
