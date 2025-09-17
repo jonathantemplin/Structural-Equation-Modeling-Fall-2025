@@ -44,11 +44,11 @@ The course will provide all readings on our course ICON site.
 | Syllabus:                | <https://docs.google.com/viewer?url=https://raw.githubusercontent.com/jonathantemplin/Structural-Equation-Modeling-Fall-2025/main/_syllabus/psqf6429f2025_syllabus.pdf> |
 +--------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 
-## Current Assignments
+## Current Homework Assignments
 
-| Assignment                    | Due Date           |
-|-------------------------------|--------------------|
-| Homework #1: Data Description | September 16, 2025 |
+| Assignment                 | Due Date           |
+|----------------------------|--------------------|
+| Homework #2: Path Analysis | September 30, 2025 |
 
 ## Lecture and Class Files and Links
 
