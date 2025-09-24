@@ -9,7 +9,7 @@ output: pdf_document
 ## Course Information
 
 |  |  |
-|------------------------------------|------------------------------------|
+|----|----|
 | Instructor: | Jonathan Templin |
 | email: | [jonathan-templin\@uiowa.edu](mailto:jonathan-templin@uiowa.edu){.email} |
 | Course website: | <https://jonathantemplin.github.io/Structural-Equation-Modeling-Fall-2025/> |
@@ -58,7 +58,7 @@ Although this software is available at the University of Iowa, I ask that you in
 Note: For readings, R denotes required readings, O denotes optional readings for more context.
 
 | Date | Topic | Reading |
-|------------------------|------------------------|------------------------|
+|----|----|----|
 | 27 Aug | Introduction to Course/Latent Trait Measurement Models | R: Brown (2015) Chs. 1 and 2 |
 |  |  | O: John & Benet-Martinez (2014), Preacher & McCollum (2003) |
 | ------ | ------- | --------- |
