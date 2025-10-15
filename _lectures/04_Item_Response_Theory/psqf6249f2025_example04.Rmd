@@ -1,0 +1,406 @@
+---
+title: "PSQF 6249: Example 4 (IRT/IFA)"
+output:
+  html_notebook: default
+  word_document: default
+  pdf_document: default
+---
+
+Example data: 635 older adults (age 80-100) self-reporting on 7 items assessing the Instrumental Activities of Daily Living (IADL) as follows:
+
+1. Housework (cleaning and laundry): 1=64%
+2. Bedmaking: 1=84%
+3. Cooking: 1=77%
+4. Everyday shopping: 1=66%
+5. Getting to places outside of walking distance: 1=65%
+6. Handling banking and other business: 1=73%	
+7. Using the telephone 1=94%
+
+Two versions of a response format were available:
+
+Binary -> 0 = “needs help”, 1 = “does not need help”
+
+Categorical -> 0 = “can’t do it”, 1=”big problems”, 2=”some problems”, 3=”no problems”
+
+Higher scores indicate greater function. We will look at each response format in turn.
+
+### Package Installation and Loading 
+
+```{r setup, include=TRUE}
+if (require(lavaan) == FALSE){
+  install.packages("lavaan")
+}
+library(lavaan)
+
+if (require(mirt) == FALSE){
+  install.packages("mirt")
+}
+library(mirt)
+
+if (require(ggplot2) == FALSE){
+  install.packages("ggplot2")
+}
+library(ggplot2)
+```
+
+### Data Import into R
+The data are in a text file named ```adl.dat``` orignally used in Mplus (so no column names were included at the top of the file). The file contains more items than we will use, so we select only items above from the whole file.
+
+```{r data, include=TRUE}
+
+#read in data file (Mplus file format so having to label columns)
+adlData = read.table(file = "adl.dat", header = FALSE, na.strings = ".", col.names = c("case", paste0("dpa", 1:14), paste0("dia", 1:7), paste0("cpa", 1:14), paste0("cia", 1:7)))
+
+#select Situations items and PersonID variables
+iadlDataInit = adlData[c(paste0("dia", 1:7))]
+
+#remove cases with all items missing
+removeCases = which(apply(X = iadlDataInit, MARGIN = 1, FUN = function (x){ length(which(is.na(x)))}) == 7)
+
+iadlData = iadlDataInit[-removeCases,]
+```
+
+### Estimation with Marginal Maximum Likelihood
+
+We will introduce the `mirt` package as a method for estimating IRT models. Overall, the package is very good, but typically is used for scaling purposes (measurement rather than use of latent variables in additional model equations). We use the package to demonstrate estimating IRT models using marginal maximum likelihood. If you wish to use the latent trait estimates in secondary analyses (which you would otherwise use SEM for simultaneously), there are additional steps to take to ensure the error associated with each score is carried over to the subsequent analysese
+
+When all the items of the model are the same type, the `mirt` syntax is very short. The `mirt()` function is used to provide estimates, with options `model=1` for all items measuring the same trait and `itemtype="2PL"` for the two-parameter logistic model (`"Rasch"` is used for the `1PL` shorthand). The `"Rasch"` designation estimates a model where the loadings are all set to one and the factor/latent trait variance is estimated) -- which is an equivalent model to the one estimated below but we seek to keep the latent trait standardized. We will estimate both simultaneously here:
+
+```{r mirt2PL, include=TRUE}
+mirt1PLsyntax = "
+IADL = 1-7
+CONSTRAIN = (1-7, a1)
+COV = 1
+"
+
+model1PLmirt = mirt(data = iadlData, model = mirt1PLsyntax)
+
+
+model2PLmirt = mirt(data = iadlData, model = 1, itemtype = "2PL")
+```
+
+Unlike `lavaan`, `mirt` does not provide a nice formatting of parameters with the summary statment. Rather, we get parts of estimates through various pieces.
+
+The model log-likelihood and summary information is given by the `show()` function:
+
+```{r mirtSum, include=TRUE}
+show(model1PLmirt)
+show(model2PLmirt)
+```
+
+Also note that the model log-likelihood information does not include a test of the model against an alternative, as does a typical CFA analysis in comparing the model fit of your model to one where all parameters were estimated. This is because the saturated model in IRT is different (for models where all items are binary, it is Multivariate Bernoulli) in that the statistics of interest come in the form of the proportion of people with a given _response pattern_.
+
+To see estimates, use the `coef()` function. Here are the estimates for the 1PL model:
+
+```{r show1PL, include=TRUE}
+coef1PL = coef(model1PLmirt)
+coef1PL
+```
+
+
+
+The `coef()` function returns an R list of the parameters for each item along with the structural model parameters (the `$GroupPars` element), which shows the mean and variance of the latent variable. For each item, there are at least four parameters listed:
+
+* `a1`: the factor loading/item discrimination/slope: the change in the log-odds of $P(Y_{si}=1)$ per one unit change in $\theta_s$ (approximate change in the 3/4PL models)
+* `d`: the item intercept the expected value of the log-odds of $P(Y_{si}=1)$ for $\theta_s = 0$ (approximate expectation in the 3/4PL models)
+* `g`: the lower asymptote or guessing parameter (for 3PL this will be non-zero)
+* `u`: the upper asymptote (for `4PL` or, in mirt, a type of a 3PL, this will be non-zero)
+
+Note how the item discrimination (the `a1` term) is equal for all items -- this is done by convention in the 1PL model.
+
+Putting the parameters into equation form, we have a slope/intercept form of the IRT model:
+
+$$P(Y_{si} = 1 | \theta_s) = g_i + (u_i-g_i)\frac{\exp\left(d_i + a1_i \theta_s \right)}{1+\exp\left(d_i + a1_i \theta_s \right)}$$
+
+Another commonly used parameterization of the IRT model is called discrimination/difficulty, given by:
+
+$$P(Y_{si} = 1 | \theta_s) = g_i + (u_i-g_i)\frac{\exp\left(a1_i \left( \theta_s - b_i \right) \right)}{1+\exp\left(a1_i \left( \theta_s - b_i \right) \right)}$$
+
+The two parameterizations are equivalent and one can be found by re-arranging terms of the other. To get the item difficulty from the slope/intercept parameterization:
+
+$$b_i = -\frac{d_i}{a1_i}$$
+
+For our results, we can use the `lapply` function to add the item difficulties:
+
+```{r mirt1PLdifficulty, include=TRUE}
+getDifficulty = function(itemPar){
+  parnames = colnames(itemPar)
+  if ("a1" %in% parnames){
+    itemPar = c(itemPar, -1*itemPar[2]/itemPar[1])
+    names(itemPar) = c(parnames, "b")
+    return(itemPar)
+  } else {
+    return(itemPar)
+  }
+}
+
+lapply(X = coef1PL, FUN = getDifficulty)
+
+itemPar = coef1PL[[1]]
+```
+
+
+For the 2PL, we can use a similar method (here condensed to display the item difficulties):
+```{r model2PLcoef, include=TRUE}
+coef2PL = lapply(X = coef(model2PLmirt), FUN = getDifficulty)
+coef2PL
+```
+
+As the 1PL is nested within the 2PL, we can use a likelihood ratio test to see which model is preferred. The LRT tests the null hypothesis that all item discriminations are equal against an alternative that not all are equal:
+
+```{r mirtLRT, include=TRUE}
+anova(model1PLmirt, model2PLmirt)
+```
+
+Here, the test statistic was $\chi_6 = 18.977$ with a p-value of .004. Therefore, we reject the null hypothesis of equal slopes and conclude the 2PL fits better than the 1PL model. 
+
+The LRT, however, assumes both models have a sufficient level of absolute fit to the data. One way to tell is the use of the `M2()` function, which provides model fit to the 2-way tables (think item-pair covariances). Because our data has some missing responses, we have to use the `impute=10` option, imputing 10 values per missing response. Here is the value for the 1PL:
+
+
+```{r model1PLM2, include=TRUE}
+M2(obj = model1PLmirt, impute = 10)
+```
+
+```{r model2PLM2, include=TRUE}
+M2(obj = model2PLmirt, impute=10)
+```
+
+The statistics given from the M2 function are similar to those used in CFA--these show approximate model fit indices such as RMSEA, SRMR, TLI, and CFI. From these, it appears the model fits approximately (CFI and TLI near 1 but relatively poor RMSEA). To find misfitting "residuals" we need complete data and the function `M2()` and the `imputeMissing()` functions are not working. So, here is an example with complete data and the 2PL:
+
+```{r m2resid, include=TRUE}
+model2PLmirtB = mirt(data = iadlData[complete.cases(iadlData),], model = 1, itemtype = "2PL")
+M2(obj = model2PLmirtB)
+
+M2(obj = model2PLmirtB, residmat = TRUE)
+```
+Here we see the biggest descripancy of residual covariances is that for dia5 with dia3 at -.08.
+
+Finally, we can see plots of our model (all shown for the 2PL model). First, the item characteristic curves
+
+```{r plots, include=TRUE}
+plot(model2PLmirt, item=1, type = "trace", theta_lim = c(-3,3))
+```
+
+Next we can see the test information plot:
+
+```{r plots2, include=TRUE}
+plot(model2PLmirt, type = "info", theta_lim = c(-3,3))
+```
+
+We can see that our test information peaks around a theta of -.5, meaning scores near -.5 will be the most reliable.
+
+Finally, we can use the `fscores()` function to get the estimated trait scores. Note, there are several types of scores available. The standard used for score reporting is `method = "EAP"`, which are scores that use the expected value of the posterior distribution of the score. For doing secondary analyses, multiple "plausible" scores should be used with the option `plausible.draws = #` where # is the number of scores to draw. We plot the density of the test scores following estimating them with `fscores()`:
+
+```{r fscores, include=TRUE}
+theta = fscores(object = model2PLmirt, method = "EAP")
+hist(theta)
+```
+The plot shows a number of people with scores at the maximum value -- but very few around the most reliable portion of the test, -.5
+
+Here, we will plot the scores along with the standard error of the scores to show the relationship:
+
+```{r fscoresSE, include=TRUE}
+theta2 = fscores(object = model2PLmirt, method = "EAP", full.scores.SE = TRUE)
+plot(x = theta2[complete.cases(iadlData),1], y = theta2[complete.cases(iadlData),2], xlab = expression(theta), ylab = "SE", main = "Complete Data Theta vs. SE(Theta)")
+```
+
+For the cases with complete data, this is the best the SE gets. When plotting all the data, you can see the impact of missing data on SE: fewer observations means a higher SE for the trait.
+
+```{r plotSE2, include=TRUE}
+plot(x = theta2[,1], y = theta2[,2], xlab = expression(theta), ylab = "SE", main = "All Data Theta vs. SE(Theta)")
+```
+
+We can also plot the item difficulty values to get a sense of the the scale is telling us about the trait:
+
+
+
+```{r difplot, include=TRUE}
+itemDif = unlist(lapply(X = coef2PL, FUN = function(x) return(x[5])))
+plot(x = 1:7, y = itemDif[1:7], type = "l", xlab = "Item", ylab = "Item Difficulty (b)")
+```
+
+
+Here are the items, again:
+
+1. Housework (cleaning and laundry): 1=64%
+2. Bedmaking: 1=84%
+3. Cooking: 1=77%
+4. Everyday shopping: 1=66%
+5. Getting to places outside of walking distance: 1=65%
+6. Handling banking and other business: 1=73%	
+7. Using the telephone 1=94%
+
+Note that no items are available to measure above-average abilities well! The item difficulty for most items covers values of Theta between -1.0 to -0.5.
+
+### Estimation in `lavaan`: Limited Information Only
+
+`lavaan` only provides limited information estimates of IRT/IFA models, which are parallel (but not necessarily equal to) Mplus' WLSMV methods. This is a limitation of `lavaan`, so if ML versions of estimates are needed, Mplus will have to be used. Alternatively, the `mirt` package in R estimates IRT models (and many other types), but has rather limited capabilities for SEM with the models used and does not include model functions for continous observed variables and provides very few SEM fit statistics. 
+
+We will compare the one-parameter vs. two-parameter models for Binary Responses using WLSMV Probit model. Beginning with the two-parameter model.
+
+
+#### Two-Parameter Model 
+
+The two-parameter model is called the two-parameter logisitic model if the logit link function is used (2PL), otherwise it is called the two-parameter normal ogive (2PNO). The syntax is largely identical to that use for CFA, however, item intercepts (`item ~ 1` in CFA) are now replaced by item thresholds (`item | t#` where `#` is the number of the threshold, in order, from 1 through the number of categories on the item minus one).
+
+The normal ogive model provides a model for a categorical variable's ($Y$ "underlying" continuous analog).
+
+
+
+```{r lavaan2PL, include=TRUE}
+model2PSyntax = "
+
+# loadings/discrimination parameters:
+IADL =~ dia1 + dia2 + dia3 + dia4 + dia5 + dia6 + dia7
+
+# threshholds use the | operator and start at value 1 after t:
+dia1 | t1; dia2 | t1; dia3 | t1; dia4 | t1; dia5 | t1; dia6 | t1; dia7 | t1; 
+
+# factor mean:
+IADL ~ 0;
+
+# factor variance:
+IADL ~~ 1*IADL
+
+dia1 ~~ dia2
+
+"
+
+model2PEstimates = sem(model = model2PSyntax, data = iadlData, ordered = c("dia1", "dia2", "dia3", "dia4", "dia5", "dia6", "dia7"),
+                       mimic = "Mplus", estimator = "WLSMV", std.lv = TRUE, parameterization = "theta")
+summary(model2PEstimates, fit.measures = TRUE, rsquare = TRUE, standardized = TRUE)
+
+```
+
+
+We can also inspect the residual polychoric correlation matrix to investigate model misfit. Note these are the raw residuals, not a normalized or standardized version. Below that, the modification indices are displayed.
+
+```{r lavaan2PL2, include=TRUE}
+resid(model2PEstimates)
+modificationindices(model2PEstimates, sort. = TRUE)
+```
+
+From the modifiation indices, we see several trends we saw with the `M2()` residuals in R: that items 5 and 3 need some additional help (as do items 1 and 3 and items 5 and 4).
+
+
+
+#### ICC Plots
+
+```{r plotICCs, include=TRUE}
+lavaanCatItemPlot = function(lavObject, varname, sds = 3){
+  output = inspect(object = lavObject, what = "est")
+  if (!varname %in% rownames(output$lambda)) stop(paste(varname, "not found in lavaan object"))
+  if (dim(output$lambda)[2]>1) stop("plots only given for one factor models")
+  
+  itemloading = output$lambda[which(rownames(output$lambda) == varname),1]
+  itemthresholds = output$tau[grep(pattern = varname, x = rownames(output$tau))]
+  
+  factorname = colnames(output$lambda)
+  factormean = output$alpha[which(rownames(output$alpha) == factorname)]
+  factorvar = output$psi[which(rownames(output$psi) == factorname)]
+  
+  factormin = factormean - 3*sqrt(factorvar)
+  factormax = factormean + 3*sqrt(factorvar)
+  
+  factorX = seq(factormin, factormax, .01)
+  itemloc = which(lavObject@Data@ov$name == varname)      
+  itemlevels = unlist(strsplit(x = lavObject@Data@ov$lnam[itemloc], split = "\\|"))  
+  if (length(itemthresholds)>1){
+
+    
+    plotdata = NULL
+    plotdata2 = NULL
+    itemY = NULL
+    itemY2 = NULL
+    itemX = NULL
+    itemText = NULL
+    for (level in 1:length(itemthresholds)){
+      
+      itemY = pnorm(q = -1*itemthresholds[level] + itemloading*factorX)
+      itemY2 = cbind(itemY2, pnorm(q = -1*itemthresholds[level] + itemloading*factorX))
+      itemText = paste0("P(", varname, " > ", itemlevels[level], ")")
+      itemText2 = paste0("P(", varname, " = ", itemlevels[level], ")")
+      plotdata = rbind(plotdata, data.frame(factor = factorX, prob = itemY, plot = itemText))
+      
+      if (level == 1){
+        plotdata2 = data.frame(factor = factorX, plot = itemText2, prob = matrix(1, nrow = dim(itemY2)[1], ncol=1) - itemY2[,level])
+      } else if (level == length(itemthresholds)){
+        plotdata2 = rbind(plotdata2, data.frame(factor = factorX, plot = itemText2, prob = itemY2[,level-1] - itemY2[,level]))
+        plotdata2 = rbind(plotdata2, data.frame(factor = factorX, plot = paste0("P(", varname, " = ", itemlevels[level+1], ")"), prob = itemY2[,level]))                  
+      } else {
+        plotdata2 = rbind(plotdata2, data.frame(factor = factorX, plot = itemText2, prob = itemY2[,level-1] - itemY2[,level]))
+      }
+      
+    }
+    
+    names(plotdata) = c(factorname , "Probability", "Cumulative")
+    ggplot(data = plotdata, aes_string(x = factorname, y = "Probability", colour = "Cumulative")) + geom_line(size = 2)
+    
+    names(plotdata2) = c(factorname, "Response", "Probability")
+    ggplot(data = plotdata2, aes_string(x = factorname, y = "Probability", colour = "Response")) + geom_line(size = 2)
+  } else {
+    
+    itemY = pnorm(q = -1*itemthresholds[1] + itemloading*factorX)
+    itemText2 = paste0("P(", varname, " = ", itemlevels[2], ")")
+    plotdata = data.frame(factor = factorX, prob = itemY, plot = itemText2)
+    
+    names(plotdata) = c(factorname , "Probability", "Response")
+    ggplot(data = plotdata, aes_string(x = factorname, y = "Probability", colour = "Response")) + geom_line(size = 2)
+    
+  }
+}
+
+lavaanCatItemPlot(lavObject = model2PEstimates, varname = "dia2", sds = 3)
+```
+
+
+
+#### Conversion to IRT Paramterization (Discrimination/Difficulty)
+
+```{r convert, include=TRUE}
+convertTheta2IRT = function(lavObject){
+  if (!lavObject@Options$parameterization == "theta") stop("your model is not estimated with parameterization='theta'")
+  
+  output = inspect(object = lavObject, what = "est")
+  if (ncol(output$lambda)>1) stop("IRT conversion is only valid for one dimensional factor models. Your model has more than one dimension.")
+  
+  a = output$lambda
+  b = output$tau/output$lambda
+  return(list(a = a, b=b))
+}
+
+convertTheta2IRT(lavObject = model2PEstimates)
+```
+
+#### One-Parameter Normal Ogive Model
+
+To estimate the 1PNO model in `lavaan`, we use the following syntax. The summary, residuals, and modification indices are displayed subsequently. 
+```{r lavaan1PL, include=TRUE}
+model1PSyntax = "
+
+# loadings/discrimination parameters:
+IADL =~ loading*dia1 + loading*dia2 + loading*dia3 + loading*dia4 + loading*dia5 + loading*dia6 + loading*dia7
+
+# threshholds use the | operator and start at value 1 after t:
+dia1 | t1; dia2 | t1; dia3 | t1; dia4 | t1; dia5 | t1; dia6 | t1; dia7 | t1; 
+
+# factor mean:
+IADL ~ 0;
+
+# factor variance:
+IADL ~~ 1*IADL
+
+"
+
+model1PEstimates = sem(model = model1PSyntax, data = iadlData, ordered = c("dia1", "dia2", "dia3", "dia4", "dia5", "dia6", "dia7"),
+                       mimic = "Mplus", estimator = "WLSMV", std.lv = TRUE, parameterization = "theta")
+summary(model1PEstimates, fit.measures = TRUE, rsquare = TRUE, standardized = TRUE)
+resid(object = model1PEstimates)
+modificationindices(model1PEstimates, sort. = TRUE)
+```
+
+To compare models, we use the `anova()` function, which uses the correct test for us. Here we see the 2PL is preferred to the 1PL, again.
+
+```{r modelcompare, include=TRUE}
+anova(model1PEstimates, model2PEstimates)
+```
