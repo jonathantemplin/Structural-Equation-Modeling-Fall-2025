@@ -1,0 +1,220 @@
+---
+title: "PSQF 6249: Example 5 (IRT/IFA)"
+output:
+  html_notebook: default
+  word_document: default
+  pdf_document: default
+---
+
+Example data: 634 older adults (age 80-100) self-reporting on 7 items assessing the Instrumental Activities of Daily Living (IADL) as follows:
+
+1.  Housework (cleaning and laundry): 1=64%
+2.  Bedmaking: 1=84%
+3.  Cooking: 1=77%
+4.  Everyday shopping: 1=66%
+5.  Getting to places outside of walking distance: 1=65%
+6.  Handling banking and other business: 1=73%\
+7.  Using the telephone 1=94%
+
+Two versions of a response format were available:
+
+Binary -\> 0 = “needs help”, 1 = “does not need help”
+
+Categorical -\> 0 = “can’t do it”, 1=”big problems”, 2=”some problems”, 3=”no problems”
+
+Higher scores indicate greater function. We will look at each response format in turn.
+
+### Package Installation and Loading
+
+```{r setup, include=TRUE}
+if (require(lavaan) == FALSE){
+  install.packages("lavaan")
+}
+library(lavaan)
+
+if (require(ggplot2) == FALSE){
+  install.packages("ggplot2")
+}
+library(ggplot2)
+```
+
+### Data Import into R
+
+The data are in a text file named `adl.dat` orignally used in Mplus (so no column names were included at the top of the file). The file contains more items than we will use, so we select only items above from the whole file.
+
+```{r data, include=TRUE}
+
+#read in data file (Mplus file format so having to label columns)
+adlData = read.table(file = "adl.dat", header = FALSE, na.strings = ".", col.names = c("case", paste0("dpa", 1:14), paste0("dia", 1:7), paste0("cpa", 1:14), paste0("cia", 1:7)))
+
+#select Situations items and PersonID variables
+iadlDataInit = adlData[c(paste0("cia", 1:7))]
+
+#remove cases with all items missing
+removeCases = which(apply(X = iadlDataInit, MARGIN = 1, FUN = function (x){ length(which(is.na(x)))}) == 7)
+
+iadlData = iadlDataInit[-removeCases,]
+```
+
+### Graded Response Model (2PL-ish version) using WLSMV probit model
+
+```{r grm2p, include=TRUE}
+grm2Psyntax = "
+IADL =~ cia1 + cia2 + cia3 + cia4 + cia5 + cia6 + cia7
+"
+
+grm2Pestimates = cfa(model = grm2Psyntax, data = iadlData, ordered = c("cia1", "cia2", "cia3", "cia4", "cia5", "cia6", "cia7"), std.lv = TRUE, parameterization="theta")
+summary(grm2Pestimates, fit.measures = TRUE, rsquare = TRUE, standardized = TRUE)
+
+```
+
+#### Parameter estimates under WLSMV Theta Parameterization (Probit) for the 2PL version of polytomous responses
+
+##### Factor loadings:
+
+Latent Variables: Estimate Std.Err z-value P(\>\|z\|) Std.lv Std.all IADL =\~\
+cia1 3.450 0.301 11.470 0.000 3.450 0.960 cia2 3.620 0.507 7.139 0.000 3.620 0.964 cia3 3.026 0.292 10.361 0.000 3.026 0.949 cia4 3.310 0.300 11.030 0.000 3.310 0.957 cia5 2.360 0.190 12.412 0.000 2.360 0.921 cia6 1.943 0.182 10.680 0.000 1.943 0.889 cia7 1.044 0.135 7.724 0.000 1.044 0.722
+
+##### Thresholds:
+
+```         
+               Estimate  Std.Err  z-value  P(>|z|)   Std.lv  Std.all
+cia1|t1          -4.946    0.385  -12.838    0.000   -4.946   -1.377
+cia1|t2          -3.636    0.324  -11.233    0.000   -3.636   -1.012
+cia1|t3          -0.900    0.219   -4.111    0.000   -0.900   -0.251
+cia2|t1          -5.502    0.658   -8.356    0.000   -5.502   -1.465
+cia2|t2          -4.797    0.605   -7.928    0.000   -4.797   -1.277
+cia2|t3          -2.973    0.463   -6.421    0.000   -2.973   -0.792
+cia3|t1          -4.426    0.362  -12.226    0.000   -4.426   -1.389
+cia3|t2          -3.702    0.331  -11.175    0.000   -3.702   -1.162
+cia3|t3          -2.050    0.262   -7.821    0.000   -2.050   -0.643
+cia4|t1          -4.490    0.355  -12.647    0.000   -4.490   -1.298
+cia4|t2          -3.100    0.282  -10.977    0.000   -3.100   -0.897
+cia4|t3          -1.098    0.225   -4.881    0.000   -1.098   -0.317
+cia5|t1          -4.098    0.281  -14.607    0.000   -4.098   -1.599
+cia5|t2          -2.195    0.190  -11.578    0.000   -2.195   -0.856
+cia5|t3          -0.618    0.151   -4.089    0.000   -0.618   -0.241
+cia6|t1          -3.605    0.255  -14.125    0.000   -3.605   -1.650
+cia6|t2          -2.558    0.203  -12.628    0.000   -2.558   -1.171
+cia6|t3          -1.531    0.171   -8.974    0.000   -1.531   -0.701
+cia7|t1          -3.311    0.268  -12.345    0.000   -3.311   -2.291
+cia7|t2          -2.695    0.199  -13.556    0.000   -2.695   -1.864
+cia7|t3          -1.788    0.145  -12.304    0.000   -1.788   -1.237
+```
+
+#### Calculations
+
+Logit = 1.7\*probit, or Probit = Logit/1.7
+
+IFA model: Probit(y=1) = –threshold + loading(Theta)
+
+Threshold = expected probit of (y=0) for someone with Theta=0
+
+When \*-1, threshold $\rightarrow$ intercept: expected probit for (y=1) instead
+
+Loading = regression of item probit on Theta
+
+For 4-category responses, the sub-models look like this: Probit(y= 0 vs 123) = -threshold\$1 + loading(Theta) Probit(y= 01 vs 23) = -threshold\$2 + loading(Theta) Probit y= 012 vs 3) = -threshold\$3 + loading(Theta)
+
+IRT model: Probit(y) = a(theta – difficulty) a = discrimination (rescaled slope) = loading b = difficulty (location on latent metric) = threshold/loading
+
+For 4-category responses, the sub-models look like this: \$1 Probit(y= 0 vs 123) = a(theta – difficulty\$1) \$2 Probit(y= 01 vs 23) = a(theta – difficulty\$2) \$3 Probit(y= 012 vs 3) = a(theta – difficulty\$3)
+
+#### Model Fit
+
+LOCAL FIT VIA RAW RESIDUAL CORRELATIONS LEFTOVER POLYCHORIC CORRELATION (HOW FAR OFF FROM DATA)
+
+With raw residuals, the scale is that of correlation (different from normalized)
+
+```{r grm2pfit, include=TRUE}
+resid(object = grm2Pestimates)
+```
+
+#### Item Plots
+
+```{r itemplot, include=TRUE}
+lavaanCatItemPlot = function(lavObject, varname, sds = 3){
+  output = inspect(object = lavObject, what = "est")
+  if (!varname %in% rownames(output$lambda)) stop(paste(varname, "not found in lavaan object"))
+  if (dim(output$lambda)[2]>1) stop("plots only given for one factor models")
+  
+  itemloading = output$lambda[which(rownames(output$lambda) == varname),1]
+  itemthresholds = output$tau[grep(pattern = varname, x = rownames(output$tau))]
+  
+  factorname = colnames(output$lambda)
+  factormean = output$alpha[which(rownames(output$alpha) == factorname)]
+  factorvar = output$psi[which(rownames(output$psi) == factorname)]
+  
+  factormin = factormean - 3*sqrt(factorvar)
+  factormax = factormean + 3*sqrt(factorvar)
+  
+  factorX = seq(factormin, factormax, .01)
+  itemloc = which(lavObject@Data@ov$name == varname)      
+  itemlevels = unlist(strsplit(x = lavObject@Data@ov$lnam[itemloc], split = "\\|"))  
+  if (length(itemthresholds)>1){
+
+    
+    plotdata = NULL
+    plotdata2 = NULL
+    itemY = NULL
+    itemY2 = NULL
+    itemX = NULL
+    itemText = NULL
+    for (level in 1:length(itemthresholds)){
+      
+      itemY = pnorm(q = -1*itemthresholds[level] + itemloading*factorX)
+      itemY2 = cbind(itemY2, pnorm(q = -1*itemthresholds[level] + itemloading*factorX))
+      itemText = paste0("P(", varname, " > ", itemlevels[level], ")")
+      itemText2 = paste0("P(", varname, " = ", itemlevels[level], ")")
+      plotdata = rbind(plotdata, data.frame(factor = factorX, prob = itemY, plot = itemText))
+      
+      if (level == 1){
+        plotdata2 = data.frame(factor = factorX, plot = itemText2, prob = matrix(1, nrow = dim(itemY2)[1], ncol=1) - itemY2[,level])
+      } else if (level == length(itemthresholds)){
+        plotdata2 = rbind(plotdata2, data.frame(factor = factorX, plot = itemText2, prob = itemY2[,level-1] - itemY2[,level]))
+        plotdata2 = rbind(plotdata2, data.frame(factor = factorX, plot = paste0("P(", varname, " = ", itemlevels[level+1], ")"), prob = itemY2[,level]))                  
+      } else {
+        plotdata2 = rbind(plotdata2, data.frame(factor = factorX, plot = itemText2, prob = itemY2[,level-1] - itemY2[,level]))
+      }
+      
+    }
+    
+    names(plotdata) = c(factorname , "Probability", "Cumulative")
+    ggplot(data = plotdata, aes_string(x = factorname, y = "Probability", colour = "Cumulative")) + geom_line(size = 2)
+    
+    names(plotdata2) = c(factorname, "Response", "Probability")
+    ggplot(data = plotdata2, aes_string(x = factorname, y = "Probability", colour = "Response")) + geom_line(size = 2)
+  } else {
+    
+    itemY = pnorm(q = -1*itemthresholds[1] + itemloading*factorX)
+    itemText2 = paste0("P(", varname, " = ", itemlevels[1], ")")
+    plotdata = data.frame(factor = factorX, prob = itemY, plot = itemText2)
+    
+    names(plotdata) = c(factorname , "Probability", "Response")
+    ggplot(data = plotdata, aes_string(x = factorname, y = "Probability", colour = "Response")) + geom_line(size = 2)
+    
+  }
+}
+
+lavaanCatItemPlot(lavObject = grm2Pestimates, varname = "cia4", sds = 3)
+```
+
+### Graded Response Model (1PL-ish version) using WLSMV probit model
+
+We can also set the item discriminations equal for a 1PL-like model:
+
+```{r grm1p, include=TRUE}
+grm1Psyntax = "
+IADL =~ a*cia1 + a*cia2 + a*cia3 + a*cia4 + a*cia5 + a*cia6 + a*cia7
+"
+
+grm1Pestimates = cfa(model = grm1Psyntax, data = iadlData, ordered = c("cia1", "cia2", "cia3", "cia4", "cia5", "cia6", "cia7"), std.lv = TRUE, parameterization="theta")
+summary(grm1Pestimates, fit.measures = TRUE, rsquare = TRUE, standardized = TRUE)
+
+```
+
+Similarly, we can use the `anova()` function to compare model fit:
+
+```{r compare, include=TRUE}
+anova(grm1Pestimates, grm2Pestimates)
+```
