@@ -1,0 +1,311 @@
+---
+title: "PSQF 6249 Fall 2025 Example 5: Higher-Order Models (CFA with MLR and IFA with WLSMV)"
+output: html_document
+---
+
+## Higher-Order Models (CFA with MLR and IFA with WLSMV)  `lavaan`
+
+```{r setup, include=TRUE}
+if (!require(lavaan)) install.packages("lavaan")
+library(lavaan)
+```
+
+Example data: 1336 college students self-reporting on 49 items (measuring five factors) assessing childhood maltreatment: Items are answered on a 1–5 scale: 1=Strongly Disagree, 2=Disagree, 3=Neutral, 4=Agree, 5=Strongly Agree. The items are NOT normally distributed, so we’ll use both CFA with MLR and IFA with WLSMV as two options to examine the fit of these models (as an example of how to do each, but NOT to compare between estimators).
+
+*1. Spurning:* Verbal and nonverbal caregiver acts that reject and degrade a child
+
+*2. Terrorizing:* Caregiver behaviors that threaten or are likely to physically hurt, kill, abandon, or place the child or the child’s loved ones or objects in recognizably dangerous situations.
+
+*3. Isolating:* Caregiver acts that consistently deny the child opportunities to meet needs for interacting or communicating with peers or adults inside or outside the home.
+
+*4. Corrupting:* Caregiver acts that encourage the child to develop inappropriate behaviors (self-destructive, antisocial, criminal, deviant, or other maladaptive behaviors).
+
+*5. Ignoring:* Emotional unresponsiveness includes caregiver acts that ignore the child’s attempts and needs to interact (failing to express affection, caring, and love for the child) and show no emotion in interactions with the child
+
+```{r import, include=TRUE}
+abuseData = read.csv(file = "abuse.csv", col.names = c("ID", paste0("p0",1:9), paste0("p",10:57)))
+```
+
+
+First, we separately build each one-factor model:
+
+```{r multiFactors, include=TRUE}
+spurningSyntax = "
+spurn =~ p06 + p10 + p14 + p25 + p27 + p29 + p33 + p35 + p48 + p49 + p53 + p54
+"
+spurningEstimatesMLR = cfa(model = spurningSyntax, data = abuseData, std.lv = FALSE, mimic = "mplus", estimator = "MLR")
+fitResultsMLR = data.frame(Model = "Spurning", rbind(inspect(object = spurningEstimatesMLR, what = "fit")), stringsAsFactors = FALSE)
+
+spurningEstimatesWLSMV = cfa(model = spurningSyntax, data = abuseData, std.lv = FALSE, mimic = "mplus", estimator = "WLSMV", 
+                             ordered = c("p06", "p10", "p14", "p25", "p27", "p29", "p33", "p35", "p48", "p49", "p53", "p54"),
+                             parameterization = "theta")
+fitResultsWLSMV = data.frame(Model = "Spurning", rbind(inspect(object = spurningEstimatesWLSMV, what = "fit")), stringsAsFactors = FALSE)
+
+spurningParams = cbind(inspect(object = spurningEstimatesMLR, what = "std")$lambda, inspect(object = spurningEstimatesWLSMV, what = "std")$lambda) 
+colnames(spurningParams) = c("spurningMLR", "spurningWLSMV")
+
+
+terrorizingSyntax = "
+terror =~ p07 + p11 + p13 + p17 + p24 + p26 + p36 + p55 + p56
+"
+terrorizingEstimatesMLR = cfa(model = terrorizingSyntax, data = abuseData, std.lv = FALSE, mimic = "mplus", estimator = "MLR")
+fitResultsMLR = rbind(fitResultsMLR, c("Terrorizing", inspect(object = terrorizingEstimatesMLR, what = "fit")))
+
+terrorizingEstimatesWLSMV = cfa(model = terrorizingSyntax, data = abuseData, std.lv = FALSE, mimic = "mplus", estimator = "WLSMV", 
+                             ordered = c("p07", "p11", "p13", "p17", "p24", "p26", "p36", "p55", "p56"), parameterization = "theta")
+fitResultsWLSMV = rbind(fitResultsWLSMV, c("Terrorizing", inspect(object = terrorizingEstimatesWLSMV, what = "fit")))
+
+terrorizingParams = cbind(inspect(object = terrorizingEstimatesMLR, what = "std")$lambda, inspect(object = terrorizingEstimatesWLSMV, what = "std")$lambda) 
+colnames(terrorizingParams) = c("terrorizingMLR", "terrorizingWLSMV")
+
+
+isolatingSyntax = "
+isolate =~ p01 + p18 + p19 + p23 + p39 + p43
+"
+
+isolatingEstimatesMLR = cfa(model = isolatingSyntax, data = abuseData, std.lv = FALSE, mimic = "mplus", estimator = "MLR")
+fitResultsMLR = rbind(fitResultsMLR, c("Isolating", inspect(object = isolatingEstimatesMLR, what = "fit")))
+
+isolatingEstimatesWLSMV = cfa(model = isolatingSyntax, data = abuseData, std.lv = FALSE, mimic = "mplus", estimator = "WLSMV", 
+                             ordered = c("p01", "p18", "p19", "p23", "p39", "p43"), parameterization = "theta")
+fitResultsWLSMV = rbind(fitResultsWLSMV, c("Isolating", inspect(object = isolatingEstimatesWLSMV, what = "fit")))
+
+isolatingParams = cbind(inspect(object = isolatingEstimatesMLR, what = "std")$lambda, inspect(object = isolatingEstimatesWLSMV, what = "std")$lambda) 
+colnames(isolatingParams) = c("isolatingMLR", "isolatingWLSMV")
+
+corruptingSyntax = "
+corrupt =~ p09 + p12 + p16 + p20 + p28 + p47 + p50
+"
+
+corruptingEstimatesMLR = cfa(model = corruptingSyntax, data = abuseData, std.lv = FALSE, mimic = "mplus", estimator = "MLR")
+fitResultsMLR = rbind(fitResultsMLR, c("Corrupting", inspect(object = corruptingEstimatesMLR, what = "fit")))
+
+corruptingEstimatesWLSMV = cfa(model = corruptingSyntax, data = abuseData, std.lv = FALSE, mimic = "mplus", estimator = "WLSMV", 
+                             ordered = c("p09", "p12", "p16", "p20", "p28", "p47", "p50"), parameterization = "theta")
+fitResultsWLSMV = rbind(fitResultsWLSMV, c("Corrupting", inspect(object = corruptingEstimatesWLSMV, what = "fit")))
+
+corruptingParams = cbind(inspect(object = corruptingEstimatesMLR, what = "std")$lambda, inspect(object = corruptingEstimatesWLSMV, what = "std")$lambda) 
+colnames(corruptingParams) = c("corruptingMLR", "corruptingWLSMV")
+
+ignoringSyntax = "
+ignore =~ p02 + p03 + p04 + p21 + p22 + p30 + p31 + p37 + p40 + p44 + p45 + p46 + p51 + p52 + p57
+"
+
+ignoringEstimatesMLR = cfa(model = ignoringSyntax, data = abuseData, std.lv = FALSE, mimic = "mplus", estimator = "MLR")
+fitResultsMLR = rbind(fitResultsMLR, c("Ignoring", inspect(object = ignoringEstimatesMLR, what = "fit")))
+
+ignoringEstimatesWLSMV = cfa(model = ignoringSyntax, data = abuseData, std.lv = FALSE, mimic = "mplus", estimator = "WLSMV", 
+                             ordered = c("p02", "p03", "p04", "p21", "p22", "p30", "p31", "p37", "p40", "p44", "p45", "p46", "p51", "p52", "p57"),
+                             parameterization = "theta")
+fitResultsWLSMV = rbind(fitResultsWLSMV, c("Ignoring", inspect(object = ignoringEstimatesWLSMV, what = "fit")))
+
+ignoringParams = cbind(inspect(object = ignoringEstimatesMLR, what = "std")$lambda, inspect(object = ignoringEstimatesWLSMV, what = "std")$lambda) 
+colnames(ignoringParams) = c("ignoringMLR", "ignoringWLSMV")
+
+```
+
+#### MLR Model Fit Results
+
+```{r onefactorres, include=TRUE}
+fitResultsMLR[,c("Model", "chisq.scaled", "chisq.scaling.factor", "df.scaled", "pvalue.scaled", "cfi.scaled", "tli.scaled","rmsea.scaled")]
+```
+
+#### WLSMV Model Fit Results
+
+
+```{r onefactorres2, include=TRUE}
+fitResultsWLSMV[,c("Model", "chisq.scaled", "chisq.scaling.factor", "df.scaled", "pvalue.scaled", "cfi.scaled", "tli.scaled","rmsea.scaled")]
+```
+
+#### Parameter Results
+
+```{r, onefactorres3, include=TRUE}
+spurningParams
+terrorizingParams
+isolatingParams
+corruptingParams
+ignoringParams
+```
+
+### CFA model with MLR including all 5 correlated factors (“biggest model” for comparison)
+
+```{r cfabig, include=TRUE}
+cfaNoHighSyntax = "
+spurn =~ p06 + p10 + p14 + p25 + p27 + p29 + p33 + p35 + p48 + p49 + p53 + p54
+terror =~ p07 + p11 + p13 + p17 + p24 + p26 + p36 + p55 + p56
+isolate =~ p01 + p18 + p19 + p23 + p39 + p43
+corrupt =~ p09 + p12 + p16 + p20 + p28 + p47 + p50
+ignore =~ p02 + p03 + p04 + p21 + p22 + p30 + p31 + p37 + p40 + p44 + p45 + p46 + p51 + p52 + p57
+"
+
+cfaNoHighEstimates = cfa(model = cfaNoHighSyntax, data = abuseData, std.lv = FALSE, mimic = "mplus", estimator = "MLR")
+summary(cfaNoHighEstimates, fit.measures = TRUE, rsquare = TRUE, standardized = TRUE)
+```
+
+NOTE: With respect to fit of the structural model, letting the separate factors be correlated is as good as it gets. This saturated structural model will be our "larger model" baseline with which to compare the fit of a single higher-order factor model (as the "smaller model").
+
+### Syntax for CFA model with MLR and a higher-order factor instead of correlations among 5 factors ("smaller/bigger model"" for comparison)
+
+```{r cfahigher, include=TRUE}
+cfaHigherSyntax = "
+spurn =~ p06 + p10 + p14 + p25 + p27 + p29 + p33 + p35 + p48 + p49 + p53 + p54
+terror =~ p07 + p11 + p13 + p17 + p24 + p26 + p36 + p55 + p56
+isolate =~ p01 + p18 + p19 + p23 + p39 + p43
+corrupt =~ p09 + p12 + p16 + p20 + p28 + p47 + p50
+ignore =~ p02 + p03 + p04 + p21 + p22 + p30 + p31 + p37 + p40 + p44 + p45 + p46 + p51 + p52 + p57
+
+abuse =~ spurn + terror + isolate + corrupt + ignore
+"
+
+cfaHigherEstimates = cfa(model = cfaHigherSyntax, data = abuseData, std.lv = FALSE, mimic = "mplus", estimator = "MLR")
+summary(cfaHigherEstimates, fit.measures = TRUE, rsquare = TRUE, standardized = TRUE)
+```
+
+NOTE: With respect to fit of the structural model, we are now fitting a single higher-order factor INSTEAD OF covariances among the 5 factors.
+
+To test the fit against the saturated (all possible factor correlations model), we can do a −2ΔLL scaled difference test.
+
+```{r cfaHvsNH, include=TRUE}
+anova(cfaNoHighEstimates, cfaHigherEstimates)
+```
+
+This higher-order factor model uses 5 fewer parameters (5 higher-order loadings to replace the 10 covariances among the factors).
+
+According to the −2ΔLL scaled difference relative to the previous model, 
+
+−2ΔLL (5) = 47.083, p < .0001
+
+trying to reproduce the 5 factor covariances with a single higher-order factor results in a significant decrease in fit. Based on the factor correlations we examined earlier and the standardized higher-order loadings, I’d guess the issue lies with the "corrupting"" factor not being as related to the others.
+
+### Comparison with One-Factor CFA model
+
+For the sake of illustration, we can try one more alternative – what if the items were measuring a single factor (i.e., a single score)? Syntax for CFA model with MLR including a single factor instead of a higher-order factor ("smallest model" for comparison):
+
+```{r single, include=TRUE}
+cfaSingleSyntax = "
+abuse =~ p06 + p10 + p14 + p25 + p27 + p29 + p33 + p35 + p48 + p49 + p53 + p54 +
+         p07 + p11 + p13 + p17 + p24 + p26 + p36 + p55 + p56 + p01 + p18 + p19 + 
+         p23 + p39 + p43 + p09 + p12 + p16 + p20 + p28 + p47 + p50 + p02 + p03 + 
+         p04 + p21 + p22 + p30 + p31 + p37 + p40 + p44 + p45 + p46 + p51 + p52 + p57
+"
+cfaSingleEstimates = cfa(model = cfaSingleSyntax, data = abuseData, std.lv = FALSE, mimic = "mplus", estimator = "MLR")
+summary(cfaSingleEstimates, fit.measures = TRUE, rsquare = TRUE, standardized = TRUE)
+
+```
+
+
+NOTE: With respect to fit of the structural model, we are now fitting a single factor INSTEAD OF 5 factors and a higher-order factor. This will tell us the extent to which a “total score” is appropriate.
+
+```{r cfasinglecomp, include=TRUE}
+anova(cfaSingleEstimates, cfaNoHighEstimates, cfaHigherEstimates)
+```
+According to the −2ΔLL scaled difference relative to the previous model,
+−2ΔLL (5) = 448.91, p < .0001
+
+Therefore, a single factor fits significantly worse than 5 factors + a higher-order factor, and so one factor does not capture the covariances for these 49 items.
+
+### Syntax for IFA model with WLSMV including all 5 correlated factors ("biggest model")
+
+NOTE: With respect to fit of the structural model, letting the 5 separate factors be correlated is as good as it gets. This saturated structural model will be our “largest model” baseline with which to compare the fit of a single higher-order factor model (as the "smaller model").
+
+```{r ifabig, include=TRUE}
+ifaNoHighSyntax = "
+spurn =~ p06 + p10 + p14 + p25 + p27 + p29 + p33 + p35 + p48 + p49 + p53 + p54
+terror =~ p07 + p11 + p13 + p17 + p24 + p26 + p36 + p55 + p56
+isolate =~ p01 + p18 + p19 + p23 + p39 + p43
+corrupt =~ p09 + p12 + p16 + p20 + p28 + p47 + p50
+ignore =~ p02 + p03 + p04 + p21 + p22 + p30 + p31 + p37 + p40 + p44 + p45 + p46 + p51 + p52 + p57
+"
+
+ifaNoHighEstimates = cfa(model = ifaNoHighSyntax, data = abuseData, std.lv = FALSE, mimic = "mplus", estimator = "WLSMV",
+                         ordered = c("p06", "p10", "p14", "p25", "p27", "p29", "p33", "p35", "p48", "p49", "p53", "p54", 
+                                     "p07", "p11", "p13", "p17", "p24", "p26", "p36", "p55", "p56", "p01", "p18", "p19", 
+                                     "p23", "p39", "p43", "p09", "p12", "p16", "p20", "p28", "p47", "p50", "p02", "p03", 
+                                     "p04", "p21", "p22", "p30", "p31", "p37", "p40", "p44", "p45", "p46", "p51", "p52", "p57"))
+summary(ifaNoHighEstimates, fit.measures = TRUE, rsquare = TRUE, standardized = TRUE)
+```
+
+
+
+Note:	#free parameters = 255 = 44 loadings + 49*4=196 thresholds + 5 factor variances + 10 factor covariances = 255 parameters USED or estimated
+
+Possible = 49*50/2 + 49*4 = 1421
+DF =1117 calculation: 1421 – 255 – 49 "residuals" = 1117
+
+Now we can test the fit of a constrained structural model that posits a single higher-order "General Abuse" factor to account for the correlations among these 5 latent factors.
+
+### Syntax for IFA model with WLSMV including a higher-order factor instead of 5 correlated factors ("smaller/bigger model"):
+
+NOTE: With respect to fit of the structural model, we are now fitting a single higher-order factor INSTEAD OF covariances among the 5 factors.
+
+To test the fit against the saturated (all possible factor correlations model), we direct DIFFTEST on the ANALYSIS command to use the results from the previous model.
+
+
+```{r ifahigher, include=TRUE}
+ifaHigherSyntax = "
+spurn =~ p06 + p10 + p14 + p25 + p27 + p29 + p33 + p35 + p48 + p49 + p53 + p54
+terror =~ p07 + p11 + p13 + p17 + p24 + p26 + p36 + p55 + p56
+isolate =~ p01 + p18 + p19 + p23 + p39 + p43
+corrupt =~ p09 + p12 + p16 + p20 + p28 + p47 + p50
+ignore =~ p02 + p03 + p04 + p21 + p22 + p30 + p31 + p37 + p40 + p44 + p45 + p46 + p51 + p52 + p57
+
+abuse =~ spurn + terror + isolate + corrupt + ignore
+"
+
+ifaHigherEstimates = cfa(model = ifaHigherSyntax, data = abuseData, std.lv = FALSE, mimic = "mplus", estimator = "WLSMV",
+                         ordered = c("p06", "p10", "p14", "p25", "p27", "p29", "p33", "p35", "p48", "p49", "p53", "p54", 
+                                     "p07", "p11", "p13", "p17", "p24", "p26", "p36", "p55", "p56", "p01", "p18", "p19", 
+                                     "p23", "p39", "p43", "p09", "p12", "p16", "p20", "p28", "p47", "p50", "p02", "p03", 
+                                     "p04", "p21", "p22", "p30", "p31", "p37", "p40", "p44", "p45", "p46", "p51", "p52", "p57"))
+summary(ifaHigherEstimates, fit.measures = TRUE, rsquare = TRUE, standardized = TRUE)
+```
+
+```{r ifacomp, include=TRUE}
+anova(ifaNoHighEstimates, ifaHigherEstimates)
+```
+
+As it turns out, `lavaan` returns an error for the model comparison, so we cannot be certain of which is better. The Mplus example showed the higher order trait did not fit as well as the general model.
+
+### Syntax and output for IFA model with WLSMV including only a single factor ("smallest model")
+
+We can try one more alternative – what if the items were measuring a single factor (i.e., a single score)?
+
+```{r ifasingle, include=TRUE}
+ifaSingleSyntax = "
+abuse =~ p06 + p10 + p14 + p25 + p27 + p29 + p33 + p35 + p48 + p49 + p53 + p54 + 
+         p07 + p11 + p13 + p17 + p24 + p26 + p36 + p55 + p56 + p01 + p18 + p19 + 
+         p23 + p39 + p43 + p09 + p12 + p16 + p20 + p28 + p47 + p50 + p02 + p03 + 
+         p04 + p21 + p22 + p30 + p31 + p37 + p40 + p44 + p45 + p46 + p51 + p52 + p57
+"
+
+ifaSingleEstimates = cfa(model = ifaSingleSyntax, data = abuseData, std.lv = FALSE, mimic = "mplus", estimator = "WLSMV",
+                         ordered = c("p06", "p10", "p14", "p25", "p27", "p29", "p33", "p35", "p48", "p49", "p53", "p54", 
+                                     "p07", "p11", "p13", "p17", "p24", "p26", "p36", "p55", "p56", "p01", "p18", "p19", 
+                                     "p23", "p39", "p43", "p09", "p12", "p16", "p20", "p28", "p47", "p50", "p02", "p03", 
+                                     "p04", "p21", "p22", "p30", "p31", "p37", "p40", "p44", "p45", "p46", "p51", "p52", "p57"))
+summary(ifaSingleEstimates, fit.measures = TRUE, rsquare = TRUE, standardized = TRUE)
+```
+
+NOTE: With respect to fit of the structural model, we are now fitting a single factor INSTEAD OF 5 factors and a higher-order factor. This will tell us the extent to which a single score is appropriate.
+
+To test the fit against the higher-order factor model, we direct DIFFTEST on the ANALYSIS command to use the results from the previous model.
+
+```{r singlecheck, include=TRUE}
+anova(ifaSingleEstimates, ifaNoHighEstimates)
+```
+Again, `lavaan` throws an error. We'll use the Mplus result in our write up below.
+
+### Example results section for CFA using MLR
+
+After examining the fit of each of the five factors individually, as described previously, a combined model was estimated in which all five factors were fit simultaneously with covariances estimated freely among them. A total of 49 items were thus included. Each factor was identified by fixing the first item loading on each factor to 1, estimating the factor variance, and then fixing the factor mean to 0, while estimating all possible item intercepts, item residual variances, and remaining item loadings. Robust maximum likelihood (MLR) estimation was used to estimate all higher-order models using the `lavaan` package (Rosseel, 2012) in R (R Core Team, 2017), and differences in fit between nested models were evaluated using −2* rescaled difference in the model log-likelihood values.
+
+As shown in Table 1, the fit of the model with five correlated factors was acceptable by the RMSEA (.047), but not by the CFI (.844). Standardized model parameters (loadings, intercepts, and residual variances) are shown in Table 2. Correlations of .6 or higher were found among the five factors, suggesting evidence that the five factors may indicate a single higher-order factor. This idea was testing by eliminating the covariances among the factors and instead estimating loadings for the five factors from a single higher-order factor (whose variance was fixed to 1). Although the fit of the higher-order factor model remained marginal (see Table 1), a nested model comparison revealed a significant decrease in fit, −2ΔLL(5) = 47.083, p < .0001, indicating that a single factor did not appear adequate to describe the pattern of correlation amongst the five factors. A further nested model comparison was conducted to examine the extent to which a single factor could describe the covariances among the items rather than five lower-order factors and a single higher-order factor. Fit of the single factor only model was poor, as shown in Table 1, and was significantly worse than the higher-order factor model, −2ΔLL(5) = 448.91, p < .0001, indicating that a single “total score” would not be recommended. 
+
+### Example results section for IFA using WLMSV
+
+After examining the fit of each of the five factors individually, as described previously, a combined model was estimated in which all five factors were fit simultaneously with covariances estimated freely among them. A total of 49 items were thus included. Each factor was identified by fixing the first item loading on each factor to 1, estimating the factor variance, and then fixing the factor mean to 0, while estimating all possible item thresholds (four for each item given five response options) and remaining item loadings. WLSMV estimation in the `lavaan` package (Rosseel, 2012) in R (R Core Team, 2017) including a probit link and the THETA parameterization (such that all item residual variances were constrained to 1) was used to estimate all higher-order models. Thus, model fit statistics describe the fit of the item factor model to the polychoric correlation matrix among the items. Nested model comparisons were conducted using the Mplus DIFFTEST procedure.
+
+As shown in Table 1, the fit of the model with five correlated factors was acceptable. Item factor analysis parameters (loadings and thresholds) and their corresponding item response model parameters (discriminations and difficulties) are shown in Table 2. Correlations of .7 or higher were found amongst the five factors, suggesting evidence that the five factors may indicate a single higher-order factor. This idea was testing by eliminating the covariances among the factors and instead estimating loadings for the five factors from a single higher-order factor (whose variance was fixed to 1). Although the fit of the higher-order factor model remained acceptable (see Table 1), a nested model comparison via the DIFFTEST procedure revealed a significant decrease in fit, DIFFTEST(5) = 92.05, p < .0001, indicating that a single factor did not appear adequate to describe the pattern of correlation amongst the five factors. A further nested model comparison was conducted to examine the extent to which a single factor could describe the polychoric correlations among the items rather than five lower-order factors and a single higher-order factor. Fit of the single factor only model was poor, as shown in Table 1, and was significantly worse than the higher-order factor model, DIFFTEST(5) = 611.95, p < .0001, indicating that a single score would not be recommended. 
+
+Table 1 = table with fit info per model
+Table 2 would have actual model parameters…. (unstandardized and standardized estimates and their SEs, so 4 columns)
