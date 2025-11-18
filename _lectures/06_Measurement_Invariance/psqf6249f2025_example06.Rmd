@@ -1,0 +1,394 @@
+---
+title: "EPSY 906/CLDP 948 Example 7A"
+---
+
+```{r setup, include=TRUE}
+if (!require(lavaan)) install.packages("lavaan")
+library(lavaan)
+```
+
+## Multiple Group CFA Invariance Example (data from Brown Chapter 7) using MLR and `lavaan`: Major Depression Criteria across Men and Women (n = 345 each)
+
+9 items rated by clinicians on a scale of 0 to 8 (0 = none, 8 = very severely disturbing/disabling)
+
+1.	Depressed mood
+2.	Loss of interest in usual activities
+3.	Weight/appetite change
+4.	Sleep disturbance
+5.	Psychomotor agitation/retardation
+6.	Fatigue/loss of energy
+7.	Feelings of worthless/guilt
+8.	Concentration difficulties
+9.	Thoughts of death/suicidality
+
+Note: `lavaan` and the `semTools` package has a simplified set of syntax commands to assess invariance. However, I will teach you the manual version so that you learn what you are doing first (then you can take their shortcuts on your own).
+
+```{r dataimport, include=TRUE}
+mddAll = read.table(file = "MDDALL.dat", header = FALSE, quote = "", na.strings = "99999")
+
+#adding names to variables
+names(mddAll) = c("sex", paste0("item",1:9))
+
+#recoding sex to specify each group name
+mddAll$sex[which(mddAll$sex==0)] = "Female"
+mddAll$sex[which(mddAll$sex==1)] = "Male"  
+```
+
+In each case, the model for the female reference group is the same and what changes is how the male are allowed to differ.
+
+### Configural Invariance Model (Everything separate across groups)
+
+```{r configural, include=TRUE}
+configuralSyntax = "
+#===================================================================================================
+#Factor loadings all freely estimated in both groups with label for each group
+depress =~ c(L1F, L1M)*item1 + c(L2F, L2M)*item2 + c(L3F, L3M)*item3 + 
+           c(L4F, L4M)*item4 + c(L5F, L5M)*item5 + c(L6F, L6M)*item6 + 
+           c(L7F, L7M)*item7 + c(L8F, L8M)*item8 + c(L9F, L9M)*item9
+
+#===================================================================================================
+#Item intercepts all freely estimated in both groups with label for each group
+item1 ~ c(I1F, I1M)*1; item2 ~ c(I2F, I2M)*1; item3 ~ c(I3F, I3M)*1; 
+item4 ~ c(I4F, I4M)*1; item5 ~ c(I5F, I5M)*1; item6 ~ c(I6F, I6M)*1; 
+item7 ~ c(I7F, I7M)*1; item8 ~ c(I8F, I8M)*1; item9 ~ c(I9F, I9M)*1;
+
+#===================================================================================================
+#Redidual variances all freely estimated with label for each group
+item1 ~~ c(E1F, E1M)*item1; item2 ~~ c(E2F, E2M)*item2; item3 ~~ c(E3F, E3M)*item3; 
+item4 ~~ c(E4F, E4M)*item4; item5 ~~ c(E5F, E5M)*item5; item6 ~~ c(E6F, E6M)*item6; 
+item7 ~~ c(E7F, E7M)*item7; item8 ~~ c(E8F, E8M)*item8; item9 ~~ c(E9F, E9M)*item9;
+
+#===================================================================================================
+#Residual covariance freely estimated in both groups with label for each group
+item1 ~~ c(EC12F, EC12M)*item2
+
+#===================================================================================================
+#Factor variance fixed to 1 for identification in each group
+depress ~~ c(1,1)*depress
+
+#===================================================================================================
+#Factor mean fixed to zero for identification in each group
+depress ~ c(0,0)*0
+
+#===================================================================================================
+"
+
+configuralEstimates = lavaan(model = configuralSyntax, data = mddAll, estimator = "MLR", mimic = "mplus", group="sex")
+summary(configuralEstimates, fit.measures = TRUE, rsquare = TRUE, standardized = TRUE)
+```
+The configural model is the first model which allows separate estimation of the factor for each group. As the items are not linked, the factor is not directly comparable.
+
+### Metric Invariance Model (loadings held equal across groups)
+
+```{r metric, include=TRUE}
+metricSyntax = "
+#===================================================================================================
+#Factor loadings set to be equal in both groups so label for each group is identical *********
+depress =~ c(L1, L1)*item1 + c(L2, L2)*item2 + c(L3, L3)*item3 + 
+           c(L4, L4)*item4 + c(L5, L5)*item5 + c(L6, L6)*item6 + 
+           c(L7, L7)*item7 + c(L8, L8)*item8 + c(L9, L9)*item9
+#===================================================================================================
+#Item intercepts all freely estimated in both groups with label for each group
+item1 ~ c(I1F, I1M)*1; item2 ~ c(I2F, I2M)*1; item3 ~ c(I3F, I3M)*1; 
+item4 ~ c(I4F, I4M)*1; item5 ~ c(I5F, I5M)*1; item6 ~ c(I6F, I6M)*1; 
+item7 ~ c(I7F, I7M)*1; item8 ~ c(I8F, I8M)*1; item9 ~ c(I9F, I9M)*1;
+#===================================================================================================
+#Redidual variances all freely estimated with label for each group
+item1 ~~ c(E1F, E1M)*item1; item2 ~~ c(E2F, E2M)*item2; item3 ~~ c(E3F, E3M)*item3; 
+item4 ~~ c(E4F, E4M)*item4; item5 ~~ c(E5F, E5M)*item5; item6 ~~ c(E6F, E6M)*item6; 
+item7 ~~ c(E7F, E7M)*item7; item8 ~~ c(E8F, E8M)*item8; item9 ~~ c(E9F, E9M)*item9;
+#===================================================================================================
+#Residual covariance freely estimated in both groups with label for each group
+item1 ~~ c(EC12F, EC12M)*item2
+#===================================================================================================
+#Factor variance fixed to 1 for identification in Female group but estimated in male group *****
+depress ~~ c(1,NA)*depress
+#===================================================================================================
+#Factor mean fixed to zero for identification in each group
+depress ~ c(0,0)*0
+#===================================================================================================
+"
+
+metricEstimates = lavaan(model = metricSyntax, data = mddAll, estimator = "MLR", mimic = "mplus", group="sex")
+summary(metricEstimates, fit.measures = TRUE, rsquare = TRUE, standardized = TRUE)
+```
+To test if the metric model fits as well as the configural model, we can use the ANOVA function:
+
+```{r metric2, include=TRUE}
+anova(configuralEstimates, metricEstimates)
+```
+
+Here, the metric model is the null hypothesis (technically all loadings being equal) and the configural model is the alternative. As the p-value is rather large, the test indicates the null hypotheisis should not be rejected and therefore, the metric model holds (there is no difference in loadings between groups).
+
+### Scalar Invariance Model (all loadings and intercepts held equal across groups)
+
+```{r scalar1, include=TRUE}
+scalarSyntax1 = "
+#===================================================================================================
+#Factor loadings set to be equal in both groups so label for each group is identical 
+depress =~ c(L1, L1)*item1 + c(L2, L2)*item2 + c(L3, L3)*item3 + 
+           c(L4, L4)*item4 + c(L5, L5)*item5 + c(L6, L6)*item6 + 
+           c(L7, L7)*item7 + c(L8, L8)*item8 + c(L9, L9)*item9
+#===================================================================================================
+#Item intercepts set to be equal in both groups so label for each group is identical ****
+item1 ~ c(I1, I1)*1; item2 ~ c(I2, I2)*1; item3 ~ c(I3, I3)*1; 
+item4 ~ c(I4, I4)*1; item5 ~ c(I5, I5)*1; item6 ~ c(I6, I6)*1; 
+item7 ~ c(I7, I7)*1; item8 ~ c(I8, I8)*1; item9 ~ c(I9, I9)*1;
+#===================================================================================================
+#Redidual variances all freely estimated with label for each group
+item1 ~~ c(E1F, E1M)*item1; item2 ~~ c(E2F, E2M)*item2; item3 ~~ c(E3F, E3M)*item3; 
+item4 ~~ c(E4F, E4M)*item4; item5 ~~ c(E5F, E5M)*item5; item6 ~~ c(E6F, E6M)*item6; 
+item7 ~~ c(E7F, E7M)*item7; item8 ~~ c(E8F, E8M)*item8; item9 ~~ c(E9F, E9M)*item9;
+#===================================================================================================
+#Residual covariance freely estimated in both groups with label for each group
+item1 ~~ c(EC12F, EC12M)*item2
+#===================================================================================================
+#Factor variance fixed to 1 for identification in Female group but estimated in male group
+depress ~~ c(1,NA)*depress
+#===================================================================================================
+#Factor mean fixed to zero for identification in Female group but estimated in male group ****
+depress ~ c(0,NA)*1
+#===================================================================================================
+"
+
+scalarEstimates1 = lavaan(model = scalarSyntax1, data = mddAll, estimator = "MLR", mimic = "mplus", group="sex")
+
+summary(scalarEstimates1, fit.measures = TRUE, rsquare = TRUE, standardized = TRUE)
+```
+We can check to see if the model fit was worse, which it was not. The p-value below indicates the scalar model fits as well as the metric model.
+
+```{r scalar2, include=TRUE}
+anova(metricEstimates, scalarEstimates1)
+anova(configuralEstimates, scalarEstimates1)
+```
+To demonstrate how to determine if a parameter may need freeing, and what happens if we free the parameter to be unequal across groups, we can return to our metric syntax and create a series of new parameters with intercept differences for each of the items.
+
+```{r scalarMI1, include=TRUE}
+#get all modification indices
+scalarMI1 = modificationindices(scalarEstimates1, free.remove = FALSE, maximum.number = 10000)
+
+#restrict to only means shown
+scalarMI1[which(scalarMI1$op == "~1"),]
+```
+
+For each item, the item intercepts section of the output will show a MI value, which is a Score test. Here, item seven has the largest MI, indicating the item intercepts may be different (but the p-value would be small). For purposes of this example, we will allow the intercept for item seven to vary across groups and re-estimate the model. If this were an actual analysis, we would have left item 7 invariant
+
+```{r scalar4, include=TRUE}
+scalarSyntax2 = "
+#===================================================================================================
+#Factor loadings set to be equal in both groups so label for each group is identical 
+depress =~ c(L1, L1)*item1 + c(L2, L2)*item2 + c(L3, L3)*item3 + 
+           c(L4, L4)*item4 + c(L5, L5)*item5 + c(L6, L6)*item6 + 
+           c(L7, L7)*item7 + c(L8, L8)*item8 + c(L9, L9)*item9
+#===================================================================================================
+#Item intercepts set to be equal in both groups so label for each group is identical ****
+item1 ~ c(I1, I1)*1; item2 ~ c(I2, I2)*1; item3 ~ c(I3, I3)*1; 
+item4 ~ c(I4, I4)*1; item5 ~ c(I5, I5)*1; item6 ~ c(I6, I6)*1; 
+item7 ~ c(I7F, I7M)*1; item8 ~ c(I8, I8)*1; item9 ~ c(I9, I9)*1;
+#===================================================================================================
+#Redidual variances all freely estimated with label for each group
+item1 ~~ c(E1F, E1M)*item1; item2 ~~ c(E2F, E2M)*item2; item3 ~~ c(E3F, E3M)*item3; 
+item4 ~~ c(E4F, E4M)*item4; item5 ~~ c(E5F, E5M)*item5; item6 ~~ c(E6F, E6M)*item6; 
+item7 ~~ c(E7F, E7M)*item7; item8 ~~ c(E8F, E8M)*item8; item9 ~~ c(E9F, E9M)*item9;
+#===================================================================================================
+#Residual covariance freely estimated in both groups with label for each group
+item1 ~~ c(EC12F, EC12M)*item2
+#===================================================================================================
+#Factor variance fixed to 1 for identification in Female group but estimated in male group
+depress ~~ c(1,NA)*depress
+#===================================================================================================
+#Factor mean fixed to zero for identification in Female group but estimated in male group
+depress ~ c(0,NA)*1
+#===================================================================================================
+
+IntDiff7 := I7F-I7M
+"
+
+scalarEstimates2 = lavaan(model = scalarSyntax2, data = mddAll, estimator = "MLR", mimic = "mplus", group="sex")
+
+summary(scalarEstimates2, fit.measures = TRUE, rsquare = TRUE, standardized = TRUE)
+anova(scalarEstimates2, scalarEstimates1, metricEstimates)
+anova(scalarEstimates2, metricEstimates)
+anova(scalarEstimates2, configuralEstimates)
+```
+
+Here we see the model fist significantly better than the previous scalar model (p = 0.01489) when the intercept for this item is freed and yet still fits as well as the metric model, so  we will leave this item intercept free and say there is partial metric invariance. 
+
+### Residual Variance Invariance Model (error variances held equal for all except item 7 because it didn’t pass scalar)
+
+To begin, we will first start with the residual variances, leaving the residual covariance free across groups.
+
+```{r residual1, include=TRUE}
+residualSyntax1 = "
+#===================================================================================================
+#Factor loadings set to be equal in both groups so label for each group is identical 
+depress =~ c(L1, L1)*item1 + c(L2, L2)*item2 + c(L3, L3)*item3 + 
+           c(L4, L4)*item4 + c(L5, L5)*item5 + c(L6, L6)*item6 + 
+           c(L7, L7)*item7 + c(L8, L8)*item8 + c(L9, L9)*item9
+#===================================================================================================
+#Item intercepts set to be equal in both groups so label for each group is identical
+item1 ~ c(I1, I1)*1; item2 ~ c(I2, I2)*1; item3 ~ c(I3, I3)*1; 
+item4 ~ c(I4, I4)*1; item5 ~ c(I5, I5)*1; item6 ~ c(I6, I6)*1; 
+item7 ~ c(I7F, I7M)*1; item8 ~ c(I8, I8)*1; item9 ~ c(I9, I9)*1;
+#===================================================================================================
+#Redidual variances set to be equal in both groups so label for each group is identical
+item1 ~~ c(E1, E1)*item1; item2 ~~ c(E2, E2)*item2; item3 ~~ c(E3, E3)*item3; 
+item4 ~~ c(E4, E4)*item4; item5 ~~ c(E5, E5)*item5; item6 ~~ c(E6, E6)*item6; 
+item7 ~~ c(E7F, E7M)*item7; item8 ~~ c(E8, E8)*item8; item9 ~~ c(E9, E9)*item9;
+#===================================================================================================
+#Residual covariance freely estimated in both groups with label for each group
+item1 ~~ c(EC12F, EC12M)*item2
+#===================================================================================================
+#Factor variance fixed to 1 for identification in Female group but estimated in male group
+depress ~~ c(1,NA)*depress
+#===================================================================================================
+#Factor mean fixed to zero for identification in Female group but estimated in male group
+depress ~ c(0,NA)*1
+#===================================================================================================
+
+IntDiff7 := I7F-I7M
+"
+
+residualEstimates1 = lavaan(model = residualSyntax1, data = mddAll, estimator = "MLR", mimic = "mplus", group="sex")
+
+summary(residualEstimates1, fit.measures = TRUE, rsquare = TRUE, standardized = TRUE)
+anova(scalarEstimates2, residualEstimates1)
+
+```
+
+Here we see residual invariance holds as the p-value suggests this model fits as well as the last (partial) scalar invariance model.
+
+Next, we will investigate the residual covariance:
+
+```{r resid2, include=TRUE}
+residualSyntax2 = "
+#===================================================================================================
+#Factor loadings set to be equal in both groups so label for each group is identical 
+depress =~ c(L1, L1)*item1 + c(L2, L2)*item2 + c(L3, L3)*item3 + 
+           c(L4, L4)*item4 + c(L5, L5)*item5 + c(L6, L6)*item6 + 
+           c(L7, L7)*item7 + c(L8, L8)*item8 + c(L9, L9)*item9
+#===================================================================================================
+#Item intercepts set to be equal in both groups so label for each group is identical
+item1 ~ c(I1, I1)*1; item2 ~ c(I2, I2)*1; item3 ~ c(I3, I3)*1; 
+item4 ~ c(I4, I4)*1; item5 ~ c(I5, I5)*1; item6 ~ c(I6, I6)*1; 
+item7 ~ c(I7F, I7M)*1; item8 ~ c(I8, I8)*1; item9 ~ c(I9, I9)*1;
+#===================================================================================================
+#Redidual variances set to be equal in both groups so label for each group is identical
+item1 ~~ c(E1, E1)*item1; item2 ~~ c(E2, E2)*item2; item3 ~~ c(E3, E3)*item3; 
+item4 ~~ c(E4, E4)*item4; item5 ~~ c(E5, E5)*item5; item6 ~~ c(E6, E6)*item6; 
+item7 ~~ c(E7F, E7M)*item7; item8 ~~ c(E8, E8)*item8; item9 ~~ c(E9, E9)*item9;
+#===================================================================================================
+#Residual covariance freely estimated in both groups with label for each group ****
+item1 ~~ c(EC12, EC12)*item2
+#===================================================================================================
+#Factor variance fixed to 1 for identification in Female group but estimated in male group
+depress ~~ c(1,NA)*depress
+#===================================================================================================
+#Factor mean fixed to zero for identification in Female group but estimated in male group
+depress ~ c(0,NA)*1
+#===================================================================================================
+"
+
+residualEstimates2 = lavaan(model = residualSyntax2, data = mddAll, estimator = "MLR", mimic = "mplus", group="sex")
+
+anova(residualEstimates1, residualEstimates2)
+```
+The low p-value indicates holding the residual covariance between items 1 and 2 equal made the model fit worse. Therefore, we will leave it separate by group.
+
+## STRUCTURAL INVARIANCE TESTS
+
+### Factor Variance Invariance Model 
+
+```{r factVar, include=TRUE}
+structuralVariance = "
+#===================================================================================================
+#Factor loadings set to be equal in both groups so label for each group is identical 
+depress =~ c(L1, L1)*item1 + c(L2, L2)*item2 + c(L3, L3)*item3 + 
+           c(L4, L4)*item4 + c(L5, L5)*item5 + c(L6, L6)*item6 + 
+           c(L7, L7)*item7 + c(L8, L8)*item8 + c(L9, L9)*item9
+#===================================================================================================
+#Item intercepts set to be equal in both groups so label for each group is identical
+item1 ~ c(I1, I1)*1; item2 ~ c(I2, I2)*1; item3 ~ c(I3, I3)*1; 
+item4 ~ c(I4, I4)*1; item5 ~ c(I5, I5)*1; item6 ~ c(I6, I6)*1; 
+item7 ~ c(I7F, I7M)*1; item8 ~ c(I8, I8)*1; item9 ~ c(I9, I9)*1;
+#===================================================================================================
+#Redidual variances set to be equal in both groups so label for each group is identical
+item1 ~~ c(E1, E1)*item1; item2 ~~ c(E2, E2)*item2; item3 ~~ c(E3, E3)*item3; 
+item4 ~~ c(E4, E4)*item4; item5 ~~ c(E5, E5)*item5; item6 ~~ c(E6, E6)*item6; 
+item7 ~~ c(E7F, E7M)*item7; item8 ~~ c(E8, E8)*item8; item9 ~~ c(E9, E9)*item9;
+#===================================================================================================
+#Residual covariance freely estimated in both groups with label for each group
+item1 ~~ c(EC12F, EC12M)*item2
+#===================================================================================================
+#Factor variance fixed to 1 for identification in Female group but estimated in Male group ****
+depress ~~ c(1,1)*depress
+#===================================================================================================
+#Factor mean fixed to zero for identification in Female group but estimated in Male group
+depress ~ c(0,NA)*1
+#===================================================================================================
+
+"
+
+structuralVarianceEstimates = lavaan(model = structuralVariance, data = mddAll, estimator = "MLR", mimic = "mplus", group="sex")
+summary(structuralVarianceEstimates, fit.measures = TRUE, rsquare = TRUE, standardized = TRUE)
+anova(residualEstimates1, structuralVariance)
+```
+
+This test reveals setting the factor variance equal does not make the model fit worse, so we can keep them equal.
+
+### Factor Mean Invariance Model 
+
+
+```{r factMean, include=TRUE}
+structuralMean = "
+#===================================================================================================
+#Factor loadings set to be equal in both groups so label for each group is identical 
+depress =~ c(L1, L1)*item1 + c(L2, L2)*item2 + c(L3, L3)*item3 + 
+           c(L4, L4)*item4 + c(L5, L5)*item5 + c(L6, L6)*item6 + 
+           c(L7, L7)*item7 + c(L8, L8)*item8 + c(L9, L9)*item9
+#===================================================================================================
+#Item intercepts set to be equal in both groups so label for each group is identical
+item1 ~ c(I1, I1)*1; item2 ~ c(I2, I2)*1; item3 ~ c(I3, I3)*1; 
+item4 ~ c(I4, I4)*1; item5 ~ c(I5, I5)*1; item6 ~ c(I6, I6)*1; 
+item7 ~ c(I7F, I7M)*1; item8 ~ c(I8, I8)*1; item9 ~ c(I9, I9)*1;
+#===================================================================================================
+#Redidual variances set to be equal in both groups so label for each group is identical
+item1 ~~ c(E1, E1)*item1; item2 ~~ c(E2, E2)*item2; item3 ~~ c(E3, E3)*item3; 
+item4 ~~ c(E4, E4)*item4; item5 ~~ c(E5, E5)*item5; item6 ~~ c(E6, E6)*item6; 
+item7 ~~ c(E7F, E7M)*item7; item8 ~~ c(E8, E8)*item8; item9 ~~ c(E9, E9)*item9;
+#===================================================================================================
+#Residual covariance freely estimated in both groups with label for each group
+item1 ~~ c(EC12F, EC12M)*item2
+#===================================================================================================
+#Factor variance fixed to 1 for identification in Female group but estimated in Male group ****
+depress ~~ c(1,1)*depress
+#===================================================================================================
+#Factor mean fixed to zero for identification in Female group but estimated in Male group
+depress ~ c(0,0)*0
+#===================================================================================================
+
+"
+
+structuralMean = lavaan(model = structuralMean, data = mddAll, estimator = "MLR", mimic = "mplus", group="sex")
+summary(structuralMean, fit.measures = TRUE, rsquare = TRUE, standardized = TRUE)
+anova(structuralMean, structuralVariance)
+anova(structuralMean, configuralEstimates)
+```
+
+And here we see the means do not differ by group, nor does the final model differ from the initial configural model. We are done.
+
+## Write-up of CFA with MLR Multiple Group Invariance Model 
+
+The extent to which a confirmatory factor model measuring depression (with nine items each on a nine-point response scale) exhibited measurement and structural invariance between women and men was examined using the `lavaan` (Rosseel, 2012) package in R (R Core Team, 2017). Robust maximum likelihood (MLR) estimation was used for all analyses; accordingly, nested model comparisons were conducted using the −2LL rescaled difference test. Women served as the reference group in all invariance models. A configural invariance model was initially specified in which single-factor models were estimated simultaneously within each group; factor mean was fixed to 0 and the factor variance was fixed to 1 for identification within each group. A residual covariance between items 1 and 2 was also estimated in each group as suggested by previous results. As shown in Table 1, the configural model had good fit, and thus a series of model constraints were then applied in successive models to examine potential decreases in fit resulting from measurement or structural non-invariance.
+
+Equality of the unstandardized item factor loadings across groups was then examined in a metric invariance model in which the factor variance was fixed to 1 in women but was freely estimated in men; the factor means were fixed to 0 in both groups. All factor loadings were constrained to be equal across groups; all intercepts and residual variances (and the residual covariance between items 1 and 2) were still permitted to vary across groups. The metric invariance model fit well (see Table 1) and did not result in a significant decrease in fit relative to the configural model, −2ΔLL(8) = 4.26, p = .83. The modification indices suggested no points of localized strain among the constrained loadings. The fact that metric invariance (i.e., "weak invariance"") held indicates that the items were related to the latent factor equivalently across groups, or more simply, that the same latent factor was being measured in each group. 
+
+Equality of the unstandardized item intercepts across groups was then examined in a scalar invariance model. The factor mean and variance were fixed to 0 and 1, respectively, for identification in the women, but the factor mean and variance were then estimated in the men. All factor loadings and item intercepts were constrained to be equal across groups; all residual variances (and the residual covariance between items 1 and 2) were still permitted to differ across groups. The scalar invariance model fit well (see Table 1) and did not result in a significant decrease in fit relative to the metric invariance model, −2ΔLL(8) = 12.39, p = .13. However, examination of the modification indices for parameter differences suggested a point of localized strain; accordingly, a partial scalar invariance model was thus estimated in which the intercept for item 7 ("feelings of worthless or guilt"") was allowed to differ between groups, resulting in a good-fitting model and a significantly better-fitting model relative to the full scalar invariance model, −2ΔLL(1) = 5.93, p = .01. The partial scalar invariance did not fit significantly worse than the metric invariance model, −2ΔLL(7) = 6.36, p = .50, indicating that partial scalar invariance did hold. The factor that partial scalar invariance (i.e., “strong invariance”) held indicates that both groups have the same expected item response at the same absolute level of the trait, or more simply, that the observed differences in item means between groups is due to factor mean differences only. The exception to this is item 7, for which women are expected to have a higher item response than men at the same absolute trait level of depression. 
+
+Equality of the unstandardized residual variances across groups was then examined in a residual variance invariance model. As in the partial scalar invariance model, the factor mean and variance were fixed to 0 and 1, respectively, for identification in the women, but the factor mean and variance were still estimated in the men. All factor loadings, item intercepts (except for item 7), and all residual variances (except for item 7) were constrained to be equal across groups; the residual covariance between item 1 and 2 was still permitted to differ across groups. The residual variance invariance model fit well (see Table 1) and did not result in significant decrease in fit relative to the partial scalar invariance model, −2ΔLL(8) = 5.27, p = .73. The modification indices suggested no points of localized strain among the constrained residual variances. The fact that residual variance invariance (i.e., “strict invariance”) held indicates that the amount of item variance not accounted for by the factor was the same across groups. Finally, equality of the residual covariance between items 1 and 2 across groups was tested and resulted in a significant decrease in fit relative to the residual invariance model, −2ΔLL(1) = 4.18, p = .04, indicating that the residual relationship between items 1 and 2 differed significantly between men and women. The residual covariance between items 1 and 2 was thus permitted to vary across groups in further models.
+
+After achieving partial measurement invariance as just described, structural invariance was then tested with two additional models. First, the factor variance in men (which had been estimated freely) was constrained to 1 (i.e., to be equal to the factor variance in the women), resulting in a nonsignificant decrease in fit relative to the residual invariance model, −2ΔLL(1) = 1.01, p = .31. Thus, men and women had equivalent amounts of individual differences in depression. Second, the factor mean in men (which had been estimated freely) was constrained to 0 (i.e., to be equal to the factor mean in women), resulting in a nonsignificant decrease in fit relative to the factor variance invariance model, −2ΔLL(1) = 1.23, p = .27, indicating that men and women had comparable amounts of depression on average. Thus, in conclusion, these analyses showed that partial measurement invariance was obtained between men and women – that is, the relationships of the items to the latent factor of depression were equivalent in both groups (except for the intercept and residual variance for item 7). These analyses also showed that full structural invariance was obtained between men and women, such that both groups had the same amount of depression and interindividual variation in depression as measured by these nine items. The fact that both the factor variances and item residual variances could be constrained equal across groups also indicates equal reliability of the items (i.e., equal standardized factor loadings) across groups, with the exception of item 7. Model parameters from the final invariance model are given in Table 2.
+
+Table 1 would have model fit statistics for tests of multiple group measurement invariance.
+
+Table 2 would have actual model parameters. (unstandardized and standardized estimates and their SEs, so 4 columns)
