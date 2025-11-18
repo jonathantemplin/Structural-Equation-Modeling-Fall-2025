@@ -1,5 +1,5 @@
 ---
-title: "EPSY 906/CLDP 948 Example 7A"
+title: "PSQF 6249 (Fall 2025) Example 6"
 ---
 
 ```{r setup, include=TRUE}
