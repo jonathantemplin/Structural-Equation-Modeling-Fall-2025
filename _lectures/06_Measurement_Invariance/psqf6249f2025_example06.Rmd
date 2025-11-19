@@ -165,13 +165,32 @@ To demonstrate how to determine if a parameter may need freeing, and what happen
 
 ```{r scalarMI1, include=TRUE}
 #get all modification indices
-scalarMI1 = modificationindices(scalarEstimates1, free.remove = FALSE, maximum.number = 10000)
+
+
+
+scalarMI1 = lavTestScore(scalarEstimates1)
+
+#change label values
+labelMap = data.frame(
+  lhs = scalarEstimates1@ParTable$plabel,
+  parameter = scalarEstimates1@ParTable$label
+)
+
+scalarMI1$uni = merge(x = scalarMI1$uni, y = labelMap, by = "lhs", all.x = TRUE)
+
+
+# reorder by decreasing values of X2:
+scalarMI1$uni = scalarMI1$uni[order(scalarMI1$uni$X2, decreasing = TRUE),]
+
+
 
 #restrict to only means shown
-scalarMI1[which(scalarMI1$op == "~1"),]
+scalarMI1$uni[grep(x = scalarMI1$uni$parameter, pattern = "I"),]
+
+
 ```
 
-For each item, the item intercepts section of the output will show a MI value, which is a Score test. Here, item seven has the largest MI, indicating the item intercepts may be different (but the p-value would be small). For purposes of this example, we will allow the intercept for item seven to vary across groups and re-estimate the model. If this were an actual analysis, we would have left item 7 invariant
+For each item, the item intercepts section of the output will show a MI value (her X2), which is a Score test. Here, item seven has the largest MI, indicating the item intercepts may be different (but the p-value would be small). For purposes of this example, we will allow the intercept for item seven to vary across groups and re-estimate the model. If this were an actual analysis, we would have left item 7 invariant
 
 ```{r scalar4, include=TRUE}
 scalarSyntax2 = "
@@ -327,6 +346,7 @@ depress ~~ c(1,1)*depress
 depress ~ c(0,NA)*1
 #===================================================================================================
 
+
 "
 
 structuralVarianceEstimates = lavaan(model = structuralVariance, data = mddAll, estimator = "MLR", mimic = "mplus", group="sex")
@@ -361,11 +381,13 @@ item7 ~~ c(E7F, E7M)*item7; item8 ~~ c(E8, E8)*item8; item9 ~~ c(E9, E9)*item9;
 item1 ~~ c(EC12F, EC12M)*item2
 #===================================================================================================
 #Factor variance fixed to 1 for identification in Female group but estimated in Male group ****
-depress ~~ c(1,1)*depress
+depress ~~ c(1,NA)*depress
 #===================================================================================================
 #Factor mean fixed to zero for identification in Female group but estimated in Male group
-depress ~ c(0,0)*0
+depress ~ c(0,NA)*0
 #===================================================================================================
+
+
 
 "
 
