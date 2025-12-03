@@ -44,12 +44,6 @@ The course will provide all readings on our course ICON site.
 | Syllabus:                | <https://docs.google.com/viewer?url=https://raw.githubusercontent.com/jonathantemplin/Structural-Equation-Modeling-Fall-2025/main/_syllabus/psqf6429f2025_syllabus.pdf> |
 +--------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 
-## Current Homework Assignments
-
-| Assignment                    | Due Date         |
-|-------------------------------|------------------|
-| Homework #4: IRT on your data | December 1, 2025 |
-
 ## Lecture and Class Files and Links
 
 ```{=html}
